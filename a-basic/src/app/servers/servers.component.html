@@ -1,0 +1,25 @@
+<button
+  class="btn btn-primary"
+  [disabled]="!allowNewServer"
+  (click)="onChangeServerStatus()"
+>
+  Add Server
+</button>
+<p>{{ serverStatus }}</p>
+<hr />
+<input (input)="onUpdate($event)" />
+<hr />
+<input [(ngModel)]="someInput" />
+<p>{{ someInput }}</p>
+<hr />
+<p *ngIf="show; else noServer">It will show me</p>
+<ng-template #noServer>
+  <p>This will be else</p>
+</ng-template>
+<hr />
+<p [ngStyle]="{ backgroundColor: getColor() }">This is red paragraph</p>
+<hr />
+
+<app-server *ngFor="let item of [1, 2, 3]; let key = index">{{
+  item
+}}</app-server>
