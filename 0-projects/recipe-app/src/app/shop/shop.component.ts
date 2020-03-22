@@ -13,4 +13,8 @@ export class ShopComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  onIngredientAdded(ingredient: Ingredient) {
+    this.ingredients.push(ingredient);
+  }
 }
