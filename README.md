@@ -15,6 +15,8 @@ Angular js guide
 - [Components](#components)
 - [Data binding](#databinding)
 - [Directives](#directives)
+- [Event Binding](#event-binding)
+- [Life Cycle](#life-cycle-hook)
 
 ## cli
 
@@ -138,6 +140,8 @@ In **_src/app.component.html_** file
 ng generate component component-name
 # OR
 ng g c component-name
+# Generate sub component
+ng g c component-name/sub-component-name
 ```
 
 [TOP](#content)
@@ -264,5 +268,172 @@ export class ServersComponent implements OnInit {
   >{{ item }} {{ index }}</app-server
 >
 ```
+
+[TOP](#content)
+
+## event-binding
+
+#### props parent-childe
+
+To bind element from parent to child
+
+**_Parent_**
+
+```html
+<app-server-element
+  *ngFor="let element of serverElements"
+  [element]="element"
+></app-server-element>
+```
+
+**_Childe _**
+
+```js
+import { Component, OnInit, Input } from '@angular/core';
+
+export class ServerElementComponent implements OnInit {
+  /* @Input decorator allows that childe receive prop */
+  @Input() element: { type: string, name: string, content: string };
+}
+```
+
+#### Add alias
+
+**_Parent_**
+
+```html
+<app-server-element
+  *ngFor="let element of serverElements"
+  [serverElement]="element"
+></app-server-element>
+```
+
+**_Childe _**
+
+```js
+import { Component, OnInit, Input } from '@angular/core';
+
+export class ServerElementComponent implements OnInit {
+  /* @Input decorator allows that childe receive prop */
+  @Input('serverElement') element: {
+    type: string,
+    name: string,
+    content: string
+  };
+}
+```
+
+#### props childe-parent
+
+**_Parent_**
+
+```html
+<app-cockpit (serverCreated)="onServerAdded($event)"></app-cockpit>
+```
+
+```js
+onServerAdded(serverData: { name: string; content: string }) {
+  this.serverElements.push({
+    type: 'server',
+    name: serverData.name,
+    content: serverData.content
+  });
+}
+```
+
+**_Childe_**
+
+```js
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+
+export class CockpitComponent implements OnInit {
+  /* Add Output decorator and EventEmitter */
+  @Output() serverCreated = new EventEmitter<{
+    name: string;
+    content: string;
+  }>();
+
+  newServerName = '';
+  newServerContent = '';
+
+  onAddServer() {
+    this.serverCreated.emit({
+      name: this.newServerName,
+      content: this.newServerContent
+    });
+  }
+}
+```
+
+#### Local reference
+
+```html
+<!-- #serverName can be only used in html File -->
+<input type="text" #serverName />
+
+<button (click)="onAddServer(serverName)">
+  Add Server
+</button>
+```
+
+```js
+onAddServer(serverName: HTMLInputElement) {
+  this.serverCreated.emit({
+    name: serverName.value,
+    content: this.newServerContent
+  });
+}
+```
+
+#### @ViewChilde
+
+This alow you to access data from input directly in .ts file
+
+```js
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+
+export class CockpitComponent implements OnInit {
+  @ViewChild('serverContent', { static: true })
+  serverContentInput: ElementRef;
+
+  /* You can use @ContentChilde to access innerText of element */
+
+  onAddServer(serverName: HTMLInputElement) {
+    this.serverCreated.emit({
+      name: serverName.value,
+      content: this.serverContentInput.nativeElement.value
+    });
+  }
+}
+```
+
+#### ng-content
+
+Use to pass props as childe element to component
+
+**_Parent_**
+
+```html
+<app-cockpit><p>Test</p></app-cockpit>
+```
+
+**_Childe_**
+
+```html
+<ng-content></ng-content>
+```
+
+[TOP](#content)
+
+## life-cycle-hook
+
+- **_ngOnChanges_** - called after input element is changed (receive argument)
+- **_ngOnInit_** - called once on initialized
+- **_ngDoCheck_** - on every change detection
+- **_ngAfterContentInit_** - after ng-content has in view
+- **_ngAfterContentChecked_** - after content is checked
+- **_ngAfterViewInit_** - after view and childe are initialized
+- **_ngAfterViewChecked_** - after view and childe view is checked
+- **_ngOnDestroy_** - after component is destroyed
 
 [TOP](#content)
