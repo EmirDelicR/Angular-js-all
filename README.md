@@ -269,6 +269,164 @@ export class ServersComponent implements OnInit {
 >
 ```
 
+#### custom attribute
+
+```console
+ng g d name
+```
+
+```js
+import { Directive, ElementRef, OnInit } from '@angular/core';
+
+@Directive({
+  selector: '[appHighlight]'
+})
+export class HighlightDirective implements OnInit {
+  constructor(private elementRef: ElementRef) {}
+
+  ngOnInit() {
+    this.elementRef.nativeElement.style.backgroundColor = 'green';
+  }
+}
+
+/* In app.module.ts */
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core';
+import { HighlightDirective } from './directive/highlight.directive';
+
+@NgModule({
+  declarations: [
+    HighlightDirective
+  ],
+  imports: [BrowserModule, FormsModule],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule {}
+
+```
+
+```html
+<p appHighlight>Testing!</p>
+```
+
+**_If you styling element is better to use this approach_**
+
+[Renderer2](https://angular.io/api/core/Renderer2)
+
+```js
+import { Directive, Renderer2, OnInit, ElementRef } from '@angular/core';
+
+@Directive({
+  selector: '[appBetterHighlight]'
+})
+export class BetterHighlightDirective implements OnInit {
+  constructor(private elRef: ElementRef, private renderer: Renderer2) {}
+
+  ngOnInit() {
+    this.renderer.setStyle(
+      this.elRef.nativeElement,
+      'background-color',
+      'blue'
+    );
+  }
+}
+```
+
+#### HostListener
+
+```js
+import {
+  Directive,
+  Renderer2,
+  OnInit,
+  ElementRef,
+  HostListener
+} from '@angular/core';
+
+@Directive({
+  selector: '[appBetterHighlight]'
+})
+export class BetterHighlightDirective implements OnInit {
+  constructor(private elRef: ElementRef, private renderer: Renderer2) {}
+
+  @HostListener('mouseenter') mouseover(eventData: Event) {
+    this.renderer.setStyle(
+      this.elRef.nativeElement,
+      'background-color',
+      'blue'
+    );
+  }
+
+  @HostListener('mouseleave') mouseleave(eventData: Event) {
+    this.renderer.setStyle(
+      this.elRef.nativeElement,
+      'background-color',
+      'transparent'
+    );
+  }
+}
+```
+
+#### HostBinding
+
+Use HostBinding for property change on element to omit Renderer2
+
+```js
+import {
+  Directive,
+  ElementRef,
+  HostListener,
+  HostBinding
+} from '@angular/core';
+
+@Directive({
+  selector: '[appBetterHighlight]'
+})
+export class BetterHighlightDirective {
+  @HostBinding('style.backgroundColor') backgroundColor = 'transparent';
+
+  constructor(private elRef: ElementRef, private renderer: Renderer2) {}
+
+  @HostListener('mouseenter') mouseover(eventData: Event) {
+    this.backgroundColor = 'blue';
+  }
+
+  @HostListener('mouseleave') mouseleave(eventData: Event) {
+    this.backgroundColor = 'transparent';
+  }
+}
+
+```
+
+#### custom structural
+
+```js
+import { Directive, Input, ViewContainerRef, TemplateRef } from '@angular/core';
+
+@Directive({
+  selector: '[appUnless]'
+})
+export class UnlessDirective {
+  @Input() set appUnless(condition: boolean) {
+    if (!condition) {
+      this.vcRef.createEmbeddedView(this.templateRef);
+    } else {
+      this.vcRef.clear();
+    }
+  }
+  constructor(
+    private templateRef: TemplateRef<any>,
+    private vcRef: ViewContainerRef
+  ) {}
+}
+```
+
+```html
+<p *appUnless="value"></p>
+```
+
 [TOP](#content)
 
 ## event-binding
