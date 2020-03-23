@@ -18,7 +18,9 @@
           <button
             class="btn btn-success"
             type="submit"
-            (click)="onAddItem(); $event.stopPropagation()"
+            (click)="
+              onAddItem(); $event.stopPropagation(); $event.preventDefault()
+            "
           >
             Add
           </button>
