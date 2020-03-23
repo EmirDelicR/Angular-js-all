@@ -17,6 +17,8 @@ Angular js guide
 - [Directives](#directives)
 - [Event Binding](#event-binding)
 - [Life Cycle](#life-cycle-hook)
+- [Services](#services)
+- [Dependency Injection](#injection)
 
 ## cli
 
@@ -593,5 +595,64 @@ Use to pass props as childe element to component
 - **_ngAfterViewInit_** - after view and childe are initialized
 - **_ngAfterViewChecked_** - after view and childe view is checked
 - **_ngOnDestroy_** - after component is destroyed
+
+[TOP](#content)
+
+## services
+
+```js
+/* create a service */
+export class LoggingService {
+  logStatusChange(status: string) {
+    console.log(`A server status changed, new status: ${status}`);
+  }
+}
+```
+
+```js
+/* Use it in component */
+import { Component, EventEmitter, Output } from '@angular/core';
+import { LoggingService } from '../services/logging.services';
+
+@Component({
+  selector: 'app-new-account',
+  templateUrl: './new-account.component.html',
+  styleUrls: ['./new-account.component.css'],
+  providers: [LoggingService]
+})
+export class NewAccountComponent {
+  constructor(private loggingService: LoggingService) {}
+
+  onCreateAccount(accountName: string, accountStatus: string) {
+    this.loggingService.logStatusChange(accountStatus);
+  }
+}
+
+```
+
+[TOP](#content)
+
+## injection
+
+Inject service into other service
+
+```js
+import { LoggingService } from './logging.services';
+import { Injectable } from '@angular/core';
+
+@Injectable()
+export class AccountService {
+  accounts = [];
+
+  constructor(private loggingService: LoggingService) {}
+
+  addAccount(name: string, status: string) {
+    this.accounts.push({ name, status });
+    this.loggingService.logStatusChange(status);
+  }
+
+}
+
+```
 
 [TOP](#content)
