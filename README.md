@@ -19,6 +19,7 @@ Angular js guide
 - [Life Cycle](#life-cycle-hook)
 - [Services](#services)
 - [Dependency Injection](#injection)
+- [Routing](#routing)
 
 ## cli
 
@@ -653,6 +654,430 @@ export class AccountService {
 
 }
 
+```
+
+[TOP](#content)
+
+## routing
+
+In app-routing.module.ts
+
+```js
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { UserComponent } from './users/user/user.component';
+import { HomeComponent } from './home/home.component';
+import { ServerComponent } from './servers/server/server.component';
+
+const routes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'users', component: UserComponent },
+  { path: 'servers', component: ServerComponent }
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule {}
+```
+
+In app.component
+
+```html
+<li role="presentation" class="active">
+  <a [routerLink]="['/']">Home</a>
+</li>
+<li role="presentation"><a [routerLink]="['/servers']">Servers</a></li>
+<li role="presentation"><a [routerLink]="['/users']">Users</a></li>
+
+<router-outlet></router-outlet>
+```
+
+#### Set link tabs active class
+
+```html
+<li
+  role="presentation"
+  routerLinkActive="active"
+  [routerLinkActiveOptions]="{ exact: true }"
+>
+  <a [routerLink]="['/']">Home</a>
+</li>
+<li role="presentation" routerLinkActive="active">
+  <a [routerLink]="['/servers']">Servers</a>
+</li>
+<li role="presentation" routerLinkActive="active">
+  <a [routerLink]="['/users']">Users</a>
+</li>
+```
+
+#### Navigate programmatically
+
+```html
+<button class="btn btn-primary" (click)="onLoadServers()">Load Servers</button>
+```
+
+```js
+import { Router } from '@angular/router';
+
+export class HomeComponent {
+  constructor(private router: Router) {}
+  onLoadServers() {
+    // ... some code
+    this.router.navigate(['/servers']);
+  }
+}
+
+```
+
+#### Passing and fetching parameters
+
+```js
+/* Set route in app-router.module.ts */
+const routes: Routes = [{ path: 'users/:id/:name', component: UserComponent }];
+
+/* Access in component */
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+
+export class UserComponent implements OnInit {
+  user: { id: number; name: string };
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit() {
+    this.user = {
+      id: this.route.snapshot.params.id,
+      name: this.route.snapshot.params.name
+    };
+
+    /* This allows to listen the changes on route */
+    this.route.params.subscribe((params: Params) => {
+      this.user.id = params.id;
+      this.user.name = params.name;
+    });
+  }
+}
+```
+
+#### Passing and fetching queries
+
+```js
+/* in app-router.module.ts */
+const routes: Routes = [
+  { path: 'servers/:id/edit', component: EditServerComponent }
+];
+
+/* Programmatically in component */
+this.router.navigate(['/servers', id, 'edit'], {
+  queryParams: { alowEdit: '1' },
+  fragment: 'loading'
+});
+```
+
+```html
+<a
+  [routerLink]="['/servers', 5, 'edit']"
+  [queryParams]="{ allowEdit: 1 }"
+  fragment="loading"
+  >Name</a
+>
+```
+
+To access
+
+```js
+ngOnInit() {
+  const id = +this.route.snapshot.params.id;
+  this.server = this.serversService.getServer(id);
+
+  this.route.params.subscribe((params: Params) => {
+    this.server = this.serversService.getServer(+params.id);
+  });
+}
+```
+
+#### Nested routes
+
+```js
+/* in app-router.module.ts */
+const routes: Routes = [
+  {
+    path: 'servers',
+    component: ServersComponent,
+    children: [
+      { path: ':id', component: ServerComponent },
+      { path: ':id/edit', component: EditServerComponent }
+    ]
+  }
+];
+
+/*
+add <router-outlet></router-outlet> in parent component
+*/
+```
+
+#### Guards
+
+```js
+/* Create file auth-guard.service.ts */
+import {
+  CanActivate,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot
+} from '@angular/router';
+import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { AuthService } from './auth.service';
+import { Router } from '@angular/router';
+
+@Injectable()
+export class AuthGuardService implements CanActivate {
+  constructor(private authService: AuthService, private router: Router) {}
+
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean> | Promise<boolean> | boolean {
+    return this.authService.isAuthenticated().then((authenticated: boolean) => {
+      if (authenticated) {
+        return true;
+      }
+
+      this.router.navigate(['/']);
+      return false;
+    });
+  }
+}
+```
+
+```js
+/* Create auth.service.ts */
+export class AuthService {
+  loggedIn = false;
+
+  isAuthenticated() {
+    /* Just to fake server request */
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(this.loggedIn);
+      }, 2000);
+    });
+  }
+}
+```
+
+```js
+/* In app-routing.module.ts */
+const routes: Routes = [
+  {
+    path: 'servers',
+    canActivate: [AuthGuardService],
+    component: ServersComponent,
+    children: [
+      { path: ':id', component: ServerComponent },
+      { path: ':id/edit', component: EditServerComponent }
+    ]
+  }
+];
+```
+
+```js
+/* In app.module.ts */
+@NgModule({
+  providers: [ServersService, AuthGuardService, AuthService]
+})
+```
+
+**_Childe Guard_**
+
+```js
+/* In auth-guard.services.ts */
+canActivateChild(
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot
+): Observable<boolean> | Promise<boolean> | boolean {
+  return this.canActivate(route, state);
+}
+```
+
+```js
+/* In app-routing.module.ts */
+const routes: Routes = [
+  {
+    path: 'servers',
+    canActivateChilde: [AuthGuardService],
+    component: ServersComponent,
+    children: [
+      { path: ':id', component: ServerComponent },
+      { path: ':id/edit', component: EditServerComponent }
+    ]
+  }
+];
+```
+
+**_ Not allow user to leave route _**
+
+```js
+/* Create can-deactivated-guard.service.ts file */
+import { Observable } from 'rxjs';
+import {
+  CanDeactivate,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot
+} from '@angular/router';
+
+export interface CanComponentDeactivate {
+  canDeactivate: () => Observable<boolean> | Promise<boolean> | boolean;
+}
+
+export class CanDeactivateGuard
+  implements CanDeactivate<CanComponentDeactivate> {
+  canDeactivate(
+    component: CanComponentDeactivate,
+    currentRoute: ActivatedRouteSnapshot,
+    currentState: RouterStateSnapshot,
+    nextState?: RouterStateSnapshot
+  ): Observable<boolean> | Promise<boolean> | boolean {
+    return component.canDeactivate();
+  }
+}
+```
+
+```js
+/* in app-routing.module.ts */
+const routes: Routes = [
+  {
+    path: 'servers',
+    canActivateChild: [AuthGuardService],
+    component: ServersComponent,
+    children: [
+      { path: ':id', component: ServerComponent },
+      {
+        path: ':id/edit',
+        component: EditServerComponent,
+        /* Add this guard to specific route */
+        canDeactivate: [CanDeactivateGuard]
+      }
+    ]
+  }
+];
+```
+
+```js
+/* Register in app.module.ts file */
+@NgModule({
+  providers: [CanDeactivateGuard],
+})
+```
+
+```js
+/* In component */
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { CanComponentDeactivate } from './can-deactivated-guard.service';
+import { Observable } from 'rxjs';
+
+export class EditServerComponent implements CanComponentDeactivate {
+  allowEdit = false;
+  changesSaved = false;
+
+  canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+    if (!this.allowEdit) {
+      return true;
+    }
+
+    const isInputDifferent =
+      this.serverName !== this.server.name ||
+      this.serverStatus !== this.server.status;
+
+    if (isInputDifferent && !this.changesSaved) {
+      return confirm('Do you want to discard the changes ?');
+    }
+
+    return true;
+  }
+}
+```
+
+#### Passing static and dynamic data to route
+
+**_static_**
+
+```js
+const routes: Routes = [
+  {
+    path: '**',
+    component: ErrorPageComponent,
+    /* Static message */
+    data: { message: 'Page not found!' }
+  }
+];
+/* Access in component */
+this.errorMessage = this.route.snapshot.data.message;
+```
+
+**_dynamic_**
+
+```js
+/* create a service like server-resolver.service.ts */
+import { Observable } from 'rxjs';
+import { ServersService } from '../servers.service';
+import {
+  Resolve,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot
+} from '@angular/router';
+import { Injectable } from '@angular/core';
+
+interface Server {
+  id: number;
+  name: string;
+  status: string;
+}
+
+@Injectable()
+export class ServerResolver implements Resolve<Server> {
+  constructor(private serversService: ServersService) {}
+
+  resolve(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<Server> | Promise<Server> | Server {
+    return this.serversService.getServer(+route.params.id);
+  }
+}
+```
+
+```js
+/* Register in app.module.ts */
+@NgModule({
+  providers: [ ServerResolver ],
+})
+```
+
+```js
+/* Declare in route */
+const routes: Routes = [
+  {
+    path: 'servers',
+    children: [
+      {
+        path: ':id',
+        component: ServerComponent,
+        resolve: { server: ServerResolver }
+      }
+    ]
+  }
+];
+```
+
+```js
+/* Access in component */
+ngOnInit() {
+  this.route.data.subscribe((data: Data) => {
+    this.server = data.server;
+  });
+}
 ```
 
 [TOP](#content)
