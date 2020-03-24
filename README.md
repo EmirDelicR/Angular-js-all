@@ -27,6 +27,7 @@ Angular js guide
 - [Routing](#routing)
 - [Observables](#observables)
 - [Forms](#forms)
+- [Pipes](#pipes)
 
 ## cli
 
@@ -1611,6 +1612,124 @@ this.signUpFormR.statusChanges.subscribe(status => {
 this.signUpFormR.setValue({});
 this.signUpFormR.patchValue({});
 this.signUpFormR.reset();
+```
+
+[TOP](#content)
+
+## pipes
+
+Use for transform output in html template.
+
+```console
+ng g p <name>
+```
+
+```html
+<p>{{ server.instanceType | uppercase }}</p>
+```
+
+###### Passing argument
+
+```html
+<p>{{ server.started | date: 'fullDate' }}</p>
+<p>{{ server.started | date: arg1: arg2: ... }}</p>
+```
+
+###### Chancing pipes
+
+```html
+<!-- it goes from left to right: first date then uppercase -->
+<p>{{ server.started | date: arg1 | uppercase }}</<p>
+```
+
+###### Creating custom pipe
+
+```js
+/* Create a file shorten.pipe.ts */
+import { PipeTransform, Pipe } from '@angular/core';
+
+@Pipe({
+  name: 'shorten'
+})
+export class ShortenPipe implements PipeTransform {
+  transform(value: string, limit: number) {
+    const short = value.length > limit ? `${value.substr(0, limit)}...` : value;
+    return short;
+  }
+}
+```
+
+```js
+/* Register in app.module.ts */
+import { ShortenPipe } from './shorten.pipe';
+
+@NgModule({
+  declarations: [AppComponent, ShortenPipe]
+})
+export class AppModule {}
+```
+
+```html
+<!-- Use in template -->
+<strong>{{ server.name | shorten: 13 }}</strong>
+```
+
+###### Filter pipe
+
+```html
+<input type="text" [(ngModel)]="filterStatus" />
+<hr />
+<li
+  class="list-group-item"
+  *ngFor="let server of servers | filter: filterStatus:'status'"
+  [ngClass]="getStatusClasses(server)"
+></li>
+```
+
+```js
+/* In component add property */
+filterStatus = '';
+```
+
+```js
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'filter'
+})
+export class FilterPipe implements PipeTransform {
+  transform(
+    value: Array<any> | string,
+    filterString: string,
+    propName: string
+  ): Array<any> | string {
+    if (value.length === 0 || filterString === '') {
+      return value;
+    }
+
+    const result = [];
+    for (const item of value) {
+      if (item[propName] === filterString) {
+        result.push(item);
+      }
+    }
+    return result;
+  }
+}
+```
+
+###### Async pipe
+
+```html
+<h3>App status: {{ appStatus | async }}</h3>
+```
+
+```js
+appStatus = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('stable');
+  }, 2000);
+});
 ```
 
 [TOP](#content)
