@@ -4,9 +4,14 @@ Angular js guide
 
 **_Useful links_**
 
-[Angular Documentation](https://angular.io/docs)
-
-[Angular CLI](https://angular.io/cli)
+- [Angular Documentation](https://angular.io/docs)
+- [Angular CLI](https://angular.io/cli)
+- [Renderer2](https://angular.io/api/core/Renderer2)
+- [Official Docs](https://rxjs-dev.firebaseapp.com/)
+- [RxJS Series](https://academind.com/learn/javascript/understanding-rxjs/)
+- [Updating to RxJS 6](https://academind.com/learn/javascript/rxjs-6-what-changed/)
+- [Validators as Directive](https://angular.io/api?type=directive)
+- [Validators](https://angular.io/api/forms/Validators)
 
 ## content
 
@@ -1252,5 +1257,360 @@ export class UserService {
 [TOP](#content)
 
 ## forms
+
+Setup
+
+```js
+/* in app.module.ts file */
+import { FormsModule } from '@angular/forms';
+
+@NgModule({
+  imports: [FormsModule]
+})
+export class AppModule {}
+```
+
+#### TD - Template Driven Approach
+
+```html
+<!-- Execute submit function in .ts file -->
+<form (ngSubmit)="onSubmit(formRef)" #formRef="ngForm">
+  <!-- ngModel allows communication with form -->
+  <input ngModel name="email" />
+  <button type="submit">Submit</button>
+</form>
+```
+
+```js
+/* In component .ts file */
+import { NgForm } from '@angular/forms';
+onSubmit(form: NgForm) {
+  console.log(form);
+}
+```
+
+###### Validation
+
+- [Validators as Directive](https://angular.io/api?type=directive)
+- [Validators](https://angular.io/api/forms/Validators)
+
+```html
+<input
+  type="email"
+  id="email"
+  class="form-control"
+  ngModel
+  name="email"
+  required
+  email
+/>
+/<!-- Disable button -->
+<button [disabled]="!formRef.valid" type="submit">
+  Submit
+</button>
+```
+
+###### Use css with angular classes
+
+```css
+.ng-dirty {
+}
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
+```
+
+###### Add text warning
+
+```html
+<input
+  type="email"
+  id="email"
+  class="form-control"
+  ngModel
+  name="email"
+  required
+  email
+  #email="ngModel"
+/>
+<!-- #email="ngModel" is important -->
+<span class="help-block" *ngIf="!email.valid && email.touched"
+  >Input email!</span
+>
+```
+
+###### Set property like placeholder
+
+```html
+<!-- 
+  NOTE: 
+  - [ngModel] - is one way binding
+  - [(ngModel)] - is two way binding
+-->
+<select
+  id="secret"
+  class="form-control"
+  [ngModel]="displayQuestion"
+  name="secret"
+></select>
+```
+
+```js
+export class AppComponent {
+  displayQuestion = 'pet';
+}
+```
+
+###### Group input data
+
+```html
+<div class="form-group" ngModelGroup="userData" #userData="ngModelGroup"></div>
+<!--
+  This will group all input field inside as object userData
+  userData: {
+    username: '',
+    email: ''
+  } 
+ -->
+```
+
+Create radio button
+
+```html
+<div class="radio" *ngFor="let gender of genders">
+  <label>
+    <input type="radio" name="gander" ngModel [value]="gender" />{{ gender }}
+  </label>
+</div>
+```
+
+##### Patch value in form
+
+```js
+import { Component, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+
+export class AppComponent {
+  /* Access form instead of passing in html */
+  @ViewChild('formRef') signUpForm: NgForm;
+
+  displayQuestion = 'pet';
+  answer = '';
+  genders = ['male', 'female'];
+
+  suggestUserName() {
+    const suggestedName = 'Superuser';
+    /* Patch only username */
+    this.signUpForm.form.patchValue({
+      userData: {
+        username: suggestedName
+      }
+    });
+  }
+
+  onSubmit() {
+    console.log(this.signUpForm);
+    this.signUpForm.reset();
+  }
+}
+```
+
+###### Reset form
+
+```js
+onSubmit() {
+  console.log(this.signUpForm);
+  this.signUpForm.reset();
+}
+```
+
+#### Reactive Approach
+
+Setup
+
+```js
+/* in app.module.ts file */
+import { ReactiveFormsModule } from '@angular/forms';
+
+@NgModule({
+  imports: [ReactiveFormsModule]
+})
+export class AppModule {}
+```
+
+###### Adding fields
+
+```js
+import { OnInit } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
+
+export class AppComponent implements OnInit {
+  gendersR = ['male', 'female'];
+  signUpFormR: FormGroup;
+
+  ngOnInit() {
+    this.signUpFormR = new FormGroup({
+      usernameR: new FormControl(null),
+      emailR: new FormControl(null),
+      genderR: new FormControl('male')
+    });
+  }
+
+  onSubmitR() {
+    console.log(this.signUpFormR);
+  }
+}
+```
+
+```html
+<form [formGroup]="signUpFormR" (ngSubmit)="onSubmitR()">
+  <!-- formControlName="usernameR" is important -->
+  <input
+    type="text"
+    id="usernameR"
+    class="form-control"
+    formControlName="usernameR"
+  />
+</form>
+```
+
+###### Validation
+
+```js
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+
+export class AppComponent implements OnInit {
+  ngOnInit() {
+    this.signUpFormR = new FormGroup({
+      usernameR: new FormControl(null, Validators.required),
+      emailR: new FormControl(null, [Validators.required, Validators.email]),
+      genderR: new FormControl('male')
+    });
+  }
+}
+```
+
+```html
+<span
+  *ngIf="!signUpFormR.get('usernameR').valid &&
+         signUpFormR.get('usernameR').touched"
+  class="help-block"
+  >Validation username</span
+>
+```
+
+##### Working with array
+
+```js
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  FormArray
+} from '@angular/forms';
+
+export class AppComponent implements OnInit {
+  ngOnInit() {
+    this.signUpFormR = new FormGroup({
+      hobbies: new FormArray([])
+    });
+  }
+
+  get controls() {
+    const ctr = (this.signUpFormR.get('hobbies') as FormArray).controls;
+    return ctr;
+  }
+
+  onAddHobby() {
+    const control = new FormControl(null, Validators.required);
+    (this.signUpFormR.get('hobbies') as FormArray).push(control);
+  }
+}
+```
+
+```html
+<div formArrayName="hobbies">
+  <h4>Hobbies!</h4>
+  <button class="btn btn-default" type="button" (click)="onAddHobby()">
+    add hobby
+  </button>
+  <div class="form-group" *ngFor="let hobbyControl of controls; let i = index">
+    <input type="text" class="form-control" [formControlName]="i" />
+  </div>
+</div>
+```
+
+###### Custom Validators
+
+```js
+export class AppComponent implements OnInit {
+  ngOnInit() {
+    this.signUpFormR = new FormGroup({
+      usernameR: new FormControl(null, [
+        Validators.required,
+        this.forbiddenNamesValidator.bind(this)
+      ])
+    });
+  }
+
+  forbiddenNamesValidator(control: FormControl): { [s: string]: boolean } {
+    /** { [s: string]: boolean } => {'test': true} */
+    if (this.forbiddenUsernames.indexOf(control.value) !== -1) {
+      return { isForbidden: true };
+    }
+
+    return null;
+  }
+}
+```
+
+**_Async Validator_**
+
+```js
+export class AppComponent implements OnInit {
+  ngOnInit() {
+    this.signUpFormR = new FormGroup({
+      emailR: new FormControl(
+        null,
+        [Validators.required, Validators.email],
+        [this.forbiddenEmailsValidator.bind(this)]
+      )
+    });
+  }
+
+  forbiddenEmailsValidator(
+    control: FormControl
+  ): Promise<any> | Observable<any> {
+    const promise =
+      new Promise() <
+      any >
+      ((resolve, reject) => {
+        setTimeout(() => {
+          if (control.value === 'a@a.com') {
+            resolve({ forbidden: true });
+          } else {
+            resolve(null);
+          }
+        }, 1500);
+      });
+    return promise;
+  }
+}
+```
+
+###### Rest
+
+```js
+/* You can listen */
+this.signUpFormR.valueChanges.subscribe(value => {
+  /* output any value that is changed */
+});
+this.signUpFormR.statusChanges.subscribe(status => {
+  /* output form status that is changed */
+});
+this.signUpFormR.setValue({});
+this.signUpFormR.patchValue({});
+this.signUpFormR.reset();
+```
 
 [TOP](#content)
