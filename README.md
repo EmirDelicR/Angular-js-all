@@ -20,6 +20,8 @@ Angular js guide
 - [Services](#services)
 - [Dependency Injection](#injection)
 - [Routing](#routing)
+- [Observables](#observables)
+- [Forms](#forms)
 
 ## cli
 
@@ -1079,5 +1081,176 @@ ngOnInit() {
   });
 }
 ```
+
+[TOP](#content)
+
+## observables
+
+- [Official Docs](https://rxjs-dev.firebaseapp.com/)
+- [RxJS Series](https://academind.com/learn/javascript/understanding-rxjs/)
+- [Updating to RxJS 6](https://academind.com/learn/javascript/rxjs-6-what-changed/)
+
+**_Build in observables and how to use _**
+
+```js
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { interval, Subscription } from 'rxjs';
+
+export class HomeComponent implements OnInit, OnDestroy {
+  private firstSubscription: Subscription;
+
+  ngOnInit(): void {
+    /* Create */
+    this.firstSubscription = interval(1000).subscribe(count => {
+      console.log(count);
+    });
+  }
+
+  ngOnDestroy(): void {
+    /* Destroy */
+    this.firstSubscription.unsubscribe();
+  }
+}
+
+```
+
+**_Custom observables and how to use_**
+
+```js
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription, Observable } from 'rxjs';
+
+export class HomeComponent implements OnInit, OnDestroy {
+  private firstSubscription: Subscription;
+
+  constructor() {}
+
+  ngOnInit(): void {
+    const customIntervalObservable = Observable.create(observer => {
+      let count = 0;
+      setInterval(() => {
+        /** Emitting data */
+        observer.next(count);
+
+        if (count === 2) {
+          /** Here observer is done no more emitting */
+          observer.complete();
+        }
+
+        if (count > 3) {
+          /** Throw error */
+          observer.error(new Error('Some dummy error!'));
+        }
+
+        count++;
+      }, 1000);
+    });
+
+    const handleData = data => {
+      console.log(data);
+    };
+
+    const handleError = error => {
+      console.log(error);
+    };
+
+    const handleComplete = () => {
+      /** It is not executed if we get error */
+      console.log('I am complete! Do clean up');
+    };
+
+    this.firstSubscription = customIntervalObservable.subscribe(
+      handleData,
+      handleError,
+      handleComplete
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.firstSubscription.unsubscribe();
+  }
+}
+```
+
+#### Operators
+
+```js
+import { map, filter } from 'rxjs/operators';
+
+this.firstSubscription = customIntervalObservable
+  .pipe(
+    filter(data => data > 0),
+    map((data: number) => {
+      console.log(data);
+      return `Round: ${data + 1}`;
+    })
+  )
+  .subscribe(handleData, handleError, handleComplete);
+```
+
+#### Subjects
+
+In childe component
+
+```html
+<button (click)="onPress()" class="btn btn-primary">Press</button>
+```
+
+```js
+/* In childe component .ts file */
+onPress() {
+  this.userService.activatedEmitter.next(true);
+}
+```
+
+In parent component
+
+```html
+<p *ngIf="isPressed">Button was pressed from user!</p>
+```
+
+```js
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { UserService } from './user.service';
+import { Subscription } from 'rxjs';
+
+export class AppComponent implements OnInit, OnDestroy {
+  isPressed = false;
+  private pressSubscription: Subscription;
+
+  constructor(private userService: UserService) {}
+
+  ngOnInit() {
+    this.pressSubscription = this.userService.activatedEmitter.subscribe(
+      (isPress: boolean) => {
+        this.isPressed = isPress;
+      }
+    );
+  }
+
+  ngOnDestroy() {
+    this.pressSubscription.unsubscribe();
+  }
+}
+
+```
+
+Create service
+
+```js
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
+
+/* This is same as add in app.module.ts in providers array */
+@Injectable({ providedIn: 'root' })
+export class UserService {
+  /** Use subject only on subscribe not on @Output() */
+  activatedEmitter = new Subject<boolean>();
+}
+```
+
+[TOP](#content)
+
+## forms
 
 [TOP](#content)
