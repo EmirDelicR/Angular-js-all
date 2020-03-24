@@ -1244,7 +1244,7 @@ import { Subject } from 'rxjs';
 /* This is same as add in app.module.ts in providers array */
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  /** Use subject only on subscribe not on @Output() */
+  /** Use subject only on subscribe (where you have EventEmitter) not on @Output() */
   activatedEmitter = new Subject<boolean>();
 }
 ```
