@@ -1,0 +1,146 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <form (ngSubmit)="onSubmit()" #formRef="ngForm">
+        <div id="user-data">
+          <div
+            class="form-group"
+            ngModelGroup="userData"
+            #userData="ngModelGroup"
+          >
+            <label for="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              class="form-control"
+              ngModel
+              name="username"
+              required
+            />
+          </div>
+          <button
+            class="btn btn-default"
+            type="button"
+            (click)="suggestUserName()"
+          >
+            Suggest an Username
+          </button>
+          <div class="form-group">
+            <label for="email">Mail</label>
+            <input
+              type="email"
+              id="email"
+              class="form-control"
+              ngModel
+              name="email"
+              required
+              email
+              #email="ngModel"
+            />
+            <span class="help-block" *ngIf="!email.valid && email.touched"
+              >Input email!</span
+            >
+          </div>
+        </div>
+        <div class="form-group">
+          <textarea
+            name="questionAnswer"
+            class="form-control"
+            rows="3"
+            [(ngModel)]="answer"
+          ></textarea>
+          <p>Replay: {{ answer }}</p>
+        </div>
+        <div class="form-group">
+          <label for="secret">Secret Questions</label>
+          <select
+            id="secret"
+            class="form-control"
+            [ngModel]="displayQuestion"
+            name="secret"
+          >
+            <option value="pet">Your first Pet?</option>
+            <option value="teacher">Your first teacher?</option>
+          </select>
+        </div>
+        <div class="radio" *ngFor="let gender of genders">
+          <label>
+            <input type="radio" name="gander" ngModel [value]="gender" />{{
+              gender
+            }}
+          </label>
+        </div>
+
+        <button
+          [disabled]="!formRef.valid"
+          class="btn btn-primary"
+          type="submit"
+        >
+          Submit
+        </button>
+      </form>
+    </div>
+  </div>
+  <br />
+  <br />
+  <hr />
+  <h1>Reactive form</h1>
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <form [formGroup]="signUpFormR" (ngSubmit)="onSubmitR()">
+        <div id="user-data">
+          <div class="form-group">
+            <label for="usernameR">Username</label>
+            <input
+              type="text"
+              id="usernameR"
+              class="form-control"
+              formControlName="usernameR"
+            />
+            <span
+              *ngIf="
+                !signUpFormR.get('usernameR').valid &&
+                signUpFormR.get('usernameR').touched
+              "
+              class="help-block"
+              >Validation username</span
+            >
+          </div>
+          <div class="form-group">
+            <label for="emailR">Mail</label>
+            <input
+              type="email"
+              id="emailR"
+              class="form-control"
+              formControlName="emailR"
+            />
+          </div>
+        </div>
+        <div class="radio" *ngFor="let gender of gendersR">
+          <label>
+            <input type="radio" formControlName="genderR" [value]="gender" />{{
+              gender
+            }}
+          </label>
+        </div>
+
+        <div formArrayName="hobbies">
+          <h4>Hobbies!</h4>
+          <button class="btn btn-default" type="button" (click)="onAddHobby()">
+            add hobby
+          </button>
+          <div
+            class="form-group"
+            *ngFor="let hobbyControl of controls; let i = index"
+          >
+            <input type="text" class="form-control" [formControlName]="i" />
+          </div>
+        </div>
+
+        <button class="btn btn-primary" type="submit">
+          Submit
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
