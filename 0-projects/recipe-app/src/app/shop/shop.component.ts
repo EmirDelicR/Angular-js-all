@@ -24,6 +24,10 @@ export class ShopComponent implements OnInit, OnDestroy {
     );
   }
 
+  onEditItem(index: number) {
+    this.shopService.startedEditing.next(index);
+  }
+
   ngOnDestroy() {
     this.ingredientsChangeSubscription.unsubscribe();
   }
