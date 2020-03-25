@@ -1,14 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from './services/auth.services';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  loadedType = 'recipe';
+export class AppComponent implements OnInit {
+  constructor(private authService: AuthService) {}
 
-  onNavigate(type: string) {
-    this.loadedType = type;
+  ngOnInit() {
+    this.authService.autoSignIn();
   }
 }

@@ -1,14 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { map, tap } from 'rxjs/operators';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { map, tap, take, exhaustMap } from 'rxjs/operators';
 import { RecipeService } from './recipe.service';
 import { Recipe } from '../recipes/recipe.model';
 
-const BASE_URL = '';
+import { BASE_URL } from '../env/api';
+import { AuthService } from './auth.services';
 
 @Injectable({ providedIn: 'root' })
 export class DataStorageServices {
-  constructor(private http: HttpClient, private recipeService: RecipeService) {}
+  constructor(
+    private http: HttpClient,
+    private recipeService: RecipeService,
+    private authService: AuthService
+  ) {}
 
   storeRecipes() {
     const recipes = this.recipeService.getRecipes();
@@ -31,8 +36,4 @@ export class DataStorageServices {
       })
     );
   }
-
-  //   deletePosts() {
-  //     return this.http.delete(`${BASE_URL}posts.json`);
-  //   }
 }

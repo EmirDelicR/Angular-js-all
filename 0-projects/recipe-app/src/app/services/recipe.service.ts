@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Recipe } from '../recipes/recipe.model';
-import { Ingredient } from '../shared/ingredient.model';
+import { Ingredient } from '../models/ingredient.model';
 import { Subject } from 'rxjs';
 import { ShopService } from './shop.service';
 
@@ -11,14 +11,7 @@ export class RecipeService {
 
   constructor(private shopService: ShopService) {}
 
-  private recipes: Recipe[] = [
-    new Recipe({
-      name: 'a',
-      description: 'b',
-      imagePath: 'c',
-      ingredients: [new Ingredient('Meat', 1)]
-    })
-  ];
+  private recipes: Recipe[] = [];
 
   setRecipes(recipes: Recipe[]) {
     this.recipes = recipes;
