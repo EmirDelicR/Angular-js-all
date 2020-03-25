@@ -12,6 +12,7 @@ Angular js guide
 - [Updating to RxJS 6](https://academind.com/learn/javascript/rxjs-6-what-changed/)
 - [Validators as Directive](https://angular.io/api?type=directive)
 - [Validators](https://angular.io/api/forms/Validators)
+- [HTTP -Official Docs](https://angular.io/guide/http)
 
 ## content
 
@@ -28,6 +29,7 @@ Angular js guide
 - [Observables](#observables)
 - [Forms](#forms)
 - [Pipes](#pipes)
+- [HTTP](#http)
 
 ## cli
 
@@ -1730,6 +1732,213 @@ appStatus = new Promise((resolve, reject) => {
     resolve('stable');
   }, 2000);
 });
+```
+
+[TOP](#content)
+
+## http
+
+Setup
+
+```js
+/* In app.module.ts */
+import { HttpClientModule } from '@angular/common/http';
+
+@NgModule({
+  imports: [HttpClientModule]
+})
+export class AppModule {}
+```
+
+```js
+/* Create post.service.ts file */
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { throwError } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+
+import { Post } from './post.model';
+
+const BASE_URL = '';
+
+@Injectable({ providedIn: 'root' })
+export class PostService {
+  constructor(private http: HttpClient) {}
+
+  createPost(post: Post) {
+    /* Return observer tso you can use subscribe in component */
+    return this.http.post<{ name: string }>(`${BASE_URL}posts.json`, post);
+  }
+
+  fetchPosts() {
+    /*
+     * Set response type on GET ->
+     * { [key: string]: Post } -> { '424gsdgr4##': { PostObject }}
+     */
+    return this.http.get<{ [key: string]: Post }>(`${BASE_URL}posts`).pipe(
+      map(response => {
+        const posts: Post[] = [];
+        /** Convert object to array  */
+        for (const key in response) {
+          if (response.hasOwnProperty(key)) {
+            posts.push({ ...response[key], id: key });
+          }
+        }
+        return posts;
+      }),
+      catchError(error => {
+        // ... do some logic (analytic, log to server)
+        return throwError(error);
+      })
+    );
+  }
+
+  deletePosts() {
+    return this.http.delete(`${BASE_URL}posts.json`);
+  }
+}
+```
+
+```js
+/* In component */
+import { Component, OnInit } from '@angular/core';
+import { Post } from './post.model';
+import { PostService } from './post.service';
+
+export class AppComponent implements OnInit {
+  loadedPosts: Post[] = [];
+  isLoading = false;
+  errorMsg = null;
+
+  constructor(private postService: PostService) {}
+
+  ngOnInit() {
+    this.fetchPosts();
+  }
+
+  onCreatePost(post: Post) {
+    // Send Http POST request
+    this.postService.createPost(post).subscribe(responseData => {
+      console.log('POST response: ', responseData);
+      this.fetchPosts();
+    });
+  }
+
+  onFetchPosts() {
+    // Send Http GET request
+    this.fetchPosts();
+  }
+
+  onClearPosts() {
+    // Send Http DELETE request
+    this.postService.deletePosts().subscribe(response => {
+      console.log('DELETE response: ', response);
+      this.loadedPosts = [];
+    });
+  }
+
+  private fetchPosts() {
+    this.isLoading = true;
+    this.postService.fetchPosts().subscribe(posts => {
+      this.loadedPosts = posts;
+      this.isLoading = false;
+    }, this.errorHandler.bind(this));
+    /* do not forgot to bind this */
+  }
+
+  private errorHandler(error: Error) {
+    this.errorMsg = error.message;
+    this.isLoading = false;
+  }
+}
+```
+
+###### Setting Headers
+
+```js
+import { HttpHeaders } from '@angular/common/http';
+
+const config = {
+  headers:: new HttpHeaders({ 'Custom-Header': 'Test'})
+}
+
+this.http.get(url, config)
+```
+
+##### Adding query parameters
+
+```js
+import { HttpParams } from '@angular/common/http';
+
+/* To add more params */
+let searchParams = new HttpParams();
+searchParams = searchParams.append('print', 'pretty');
+// ...
+const config = {
+  /* To add single */
+  // params: new HttpParams().set('print', 'pretty')
+  params: searchParams
+};
+
+this.http.get(url, config);
+```
+
+###### Config
+
+```js
+const config = {
+  responseType: 'text | json',
+  observe: 'events | body | response'
+};
+
+this.http.get(url, config);
+```
+
+###### Interceptors
+
+```js
+/* Create auth-interceptor.service.ts file */
+import {
+  HttpInterceptor,
+  HttpRequest,
+  HttpHandler,
+  HttpEventType
+} from '@angular/common/http';
+import { tap } from 'rxjs/operators';
+
+export class AuthInterceptorService implements HttpInterceptor {
+  intercept(req: HttpRequest<any>, next: HttpHandler) {
+    const modifiedReq = req.clone({
+      headers: req.headers.append('Auth', 'xyz')
+    });
+    return next.handle(modifiedReq).pipe(
+      tap(event => {
+        /* tap give option to see response and not modify */
+        if (event.type === HttpEventType.Response) {
+          console.log(event.body);
+        }
+      })
+    );
+  }
+}
+```
+
+```js
+/* In app.module.ts */
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptorService } from './auth-interceptor.service';
+
+@NgModule({
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true
+    }
+    // ... Order is important
+  ]
+})
+export class AppModule {}
 ```
 
 [TOP](#content)
