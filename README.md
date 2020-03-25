@@ -1775,7 +1775,7 @@ export class PostService {
      * Set response type on GET ->
      * { [key: string]: Post } -> { '424gsdgr4##': { PostObject }}
      */
-    return this.http.get<{ [key: string]: Post }>(`${BASE_URL}posts`).pipe(
+    return this.http.get<{ [key: string]: Post }>(`${BASE_URL}posts.json`).pipe(
       map(response => {
         const posts: Post[] = [];
         /** Convert object to array  */
