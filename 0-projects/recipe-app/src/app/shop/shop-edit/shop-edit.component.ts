@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { Ingredient } from '../../shared/ingredient.model';
-import { ShopService } from '../shop.service';
+import { ShopService } from '../../services/shop.service';
 
 @Component({
   selector: 'app-shop-edit',
