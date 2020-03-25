@@ -12,7 +12,9 @@ Angular js guide
 - [Updating to RxJS 6](https://academind.com/learn/javascript/rxjs-6-what-changed/)
 - [Validators as Directive](https://angular.io/api?type=directive)
 - [Validators](https://angular.io/api/forms/Validators)
-- [HTTP -Official Docs](https://angular.io/guide/http)
+- [HTTP - Official Docs](https://angular.io/guide/http)
+- [Firebase Auth REST API Docs](https://firebase.google.com/docs/reference/rest/auth)
+- [More on JWT](https://jwt.io)
 
 ## content
 
