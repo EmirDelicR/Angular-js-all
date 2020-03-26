@@ -17,6 +17,7 @@ Angular js guide
 - [More on JWT](https://jwt.io)
 - [Modules Official Docs](https://angular.io/guide/ngmodules)
 - [NgModules FAQ](https://angular.io/guide/ngmodule-faq)
+- [Official Angular Service Worker Docs](https://angular.io/guide/service-worker-intro)
 
 ## content
 
@@ -36,6 +37,9 @@ Angular js guide
 - [HTTP](#http)
 - [Modules](#modules)
 - [CLI](#cli)
+- [Angular Universal](#universal)
+- [PWA](#pwa)
+- [Animations](#animations)
 
 ## cli
 
@@ -2102,6 +2106,156 @@ ng generate @angular/material:nav main-nav
 
 #Update application
 ng update
+```
+
+[TOP](#content)
+
+## universal
+
+Angular universal is pre-render pages to get some kinda server side rendering
+
+```console
+# add Angular Universal
+# name can be fount in angular.json below projects
+ng add @nguniversal/express-engine --clientProject <name>
+```
+
+```js
+/* Command above will create app.server.module.ts file */
+/* You need to add */
+import { ModuleMapLoaderModule } from '@nguniversal/module-map-ngfactory-loader';
+@NgModule({
+  imports: [
+    ModuleMapLoaderModule
+  ],
+})
+/* Instal: npm i @nguniversal/module-map-ngfactory-loader */
+```
+
+```js
+/* Server side rendering does not have access to localStorage or any browser build in functions (API) so you need to make a check for example: in app.component.ts*/
+import { Inject, PLATFORM_ID, OnInit } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+
+class AppComponent implements OnInit{
+  constructor(@Inject(PLATFORM_ID) private platformId){}
+
+  ngOnInit() {
+    if(isPlatformBrowser(this.platformId)) {
+      // do some function with localStorage
+    }
+  }
+}
+```
+
+```console
+# Build project
+npm run build:ssr
+# Upload code on server and run
+npm run serve:ssr
+
+```
+
+[TOP](#content)
+
+## pwa
+
+```console
+ng add @angular/pwa
+```
+
+```js
+/* in ngsw-config.json */
+/* Add new property */
+"dataGroups": [
+  {
+    "name": "posts",
+    "urls": ["..."],
+    "cacheConfig": {
+      "maxSize": 5,
+      "maxAge": "6h",
+      "timeout": "10s",
+      "strategy": "freshness"
+    }
+  }
+]
+```
+
+[TOP](#content)
+
+## animations
+
+Setup
+
+```console
+npm i @angular/animations
+```
+
+```js
+/* In app.module.ts file */
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+@NgModule({
+  imports: [BrowserAnimationsModule]
+})
+export class AppModule {}
+```
+
+```js
+/* 
+In component 
+You then import trigger , state , style  etc from @angular/animations 
+*/
+import { Component } from '@angular/core';
+import {
+  trigger,
+  state,
+  style,
+  transition,
+  animate
+} from '@angular/animations';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  animations: [
+    trigger('divState', [
+      state(
+        'normal',
+        style({
+          'background-color': 'red',
+          transform: 'translateX(0)'
+        })
+      ),
+      state(
+        'highlight',
+        style({
+          'background-color': 'blue',
+          transform: 'translateX(100px)'
+        })
+      ),
+      transition('normal <=> highlight', animate(300))
+    ])
+  ]
+})
+export class AppComponent {
+  animationState = 'normal';
+  list = ['Milk', 'Sugar', 'Bread'];
+
+  onAnimate() {
+    this.animationState === 'normal'
+      ? (this.animationState = 'highlight')
+      : (this.animationState = 'normal');
+  }
+  onAdd(item) {
+    this.list.push(item);
+  }
+  onDelete(item) {}
+}
+```
+
+```html
+<div style="width: 100px; height: 100px;" [@divState]="animationState"></div>
 ```
 
 [TOP](#content)
