@@ -27,4 +27,4 @@ import { RecipeEditComponent } from './recipe-edit/recipe-edit.component';
     SharedModule
   ]
 })
-export class RecipeModule {}
+export class RecipesModule {}
