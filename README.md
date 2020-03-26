@@ -15,6 +15,8 @@ Angular js guide
 - [HTTP - Official Docs](https://angular.io/guide/http)
 - [Firebase Auth REST API Docs](https://firebase.google.com/docs/reference/rest/auth)
 - [More on JWT](https://jwt.io)
+- [Modules Official Docs](https://angular.io/guide/ngmodules)
+- [NgModules FAQ](https://angular.io/guide/ngmodule-faq)
 
 ## content
 
@@ -32,6 +34,8 @@ Angular js guide
 - [Forms](#forms)
 - [Pipes](#pipes)
 - [HTTP](#http)
+- [Modules](#modules)
+- [CLI](#cli)
 
 ## cli
 
@@ -1941,6 +1945,163 @@ import { AuthInterceptorService } from './auth-interceptor.service';
   ]
 })
 export class AppModule {}
+```
+
+[TOP](#content)
+
+## modules
+
+###### Feature modules
+
+```js
+/* Create a file recipe.module.ts */
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+
+import { RecipesComponent } from './recipes.component';
+
+@NgModule({
+  declarations: [RecipesComponent],
+  // CommonModule replace BrowserModule
+  imports: [RouterModule, CommonModule, ReactiveFormsModule],
+  exports: [RecipesComponent]
+})
+export class RecipeModule {}
+```
+
+```js
+/* In app.module,ts */
+@NgModule({
+  imports: [BrowserModule, RecipeModule]
+})
+export class AppModule {}
+```
+
+###### Outsource routes
+
+```js
+/* create recipes-routing.ts file */
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+
+import { RecipesComponent } from './recipes.component';
+import { AuthGuard } from '../guards/auth.guard';
+
+const routes: Routes = [
+  {
+    path: 'recipes',
+    component: RecipesComponent,
+    canActivate: [AuthGuard],
+    children: [
+      { path: '', component: RecipeStartComponent },
+      { path: 'new', component: RecipeEditComponent }
+    ]
+  }
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class RecipeRoutingModule {}
+```
+
+```js
+/* In recipes.module.ts */
+@NgModule({
+  imports: [
+    RouterModule,
+    RecipeRoutingModule
+  ],
+  /* Now you can remove Component export */
+})
+```
+
+###### Shared modules
+
+```js
+/* Create file shared.module.ts */
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { AlertComponent } from './alert/alert.component';
+import { LoadingComponent } from './spinners/loading.component';
+import { DropdownDirective } from '../custom-directive/dropdown.directive';
+
+@NgModule({
+  declarations: [AlertComponent, LoadingComponent, DropdownDirective],
+  imports: [CommonModule],
+  /* It is important to export this components */
+  exports: [AlertComponent, LoadingComponent, DropdownDirective, CommonModule]
+})
+export class SharedModule {}
+```
+
+```js
+/* Now in any other module import this shared module */
+@NgModule({
+  imports: [
+    RouterModule,
+    ReactiveFormsModule,
+    RecipeRoutingModule,
+    SharedModule
+  ]
+})
+```
+
+###### Lazy loading
+
+To implement lazy loading route must be in separate modules and it need Router.forChilde()
+
+```js
+/* in main app-routing.module.ts file */
+const routes: Routes = [
+  {
+    path: 'recipes',
+    loadChildren: () =>
+      /* Way to lazy load */
+      import('./recipes/recipes.module').then(m => m.RecipesModule)
+  }
+];
+
+/* 
+  1. NOTE in component-route.module.ts file set root path to '' 
+  2. In app.module remove Module import
+*/
+```
+
+###### Pre-load lazy load
+
+```js
+/* in main app-router.module.ts */
+import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
+
+@NgModule({
+  imports: [
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+  ],
+  exports: [RouterModule]
+})
+```
+
+[TOP](#content)
+
+## cli
+
+```console
+ng new --help
+ng help
+ng generate --help
+ng generate component --help
+
+# Add new package
+ng add @angular/material
+ng generate @angular/material:nav main-nav
+
+#Update application
+ng update
 ```
 
 [TOP](#content)
