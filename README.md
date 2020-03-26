@@ -18,6 +18,10 @@ Angular js guide
 - [Modules Official Docs](https://angular.io/guide/ngmodules)
 - [NgModules FAQ](https://angular.io/guide/ngmodule-faq)
 - [Official Angular Service Worker Docs](https://angular.io/guide/service-worker-intro)
+- [Official Docs Testing](https://angular.io/docs/ts/latest/guide/testing.html)
+- [Test Components with Jasmine](https://semaphoreci.com/community/tutorials/testing-components-in-angular-2-with-jasmine)
+- [Unit Tests](https://github.com/angular/angular-cli/wiki/test)
+- [E2E Tests](https://github.com/angular/angular-cli/wiki/e2e)
 
 ## content
 
@@ -40,6 +44,7 @@ Angular js guide
 - [Angular Universal](#universal)
 - [PWA](#pwa)
 - [Animations](#animations)
+- [Testing](#testing)
 
 ## cli
 
@@ -2240,22 +2245,72 @@ import {
 })
 export class AppComponent {
   animationState = 'normal';
-  list = ['Milk', 'Sugar', 'Bread'];
 
   onAnimate() {
     this.animationState === 'normal'
       ? (this.animationState = 'highlight')
       : (this.animationState = 'normal');
   }
-  onAdd(item) {
-    this.list.push(item);
-  }
-  onDelete(item) {}
 }
 ```
 
 ```html
 <div style="width: 100px; height: 100px;" [@divState]="animationState"></div>
+```
+
+[TOP](#content)
+
+## testing
+
+```console
+ng test
+```
+
+###### Testing service
+
+```js
+it('should create the app', () => {
+  const fixture = TestBed.createComponent(AppComponent);
+  const app = fixture.componentInstance;
+  let service = fixture.injector.get(SomeService);
+  fixture.detectChanges();
+  expect(service.user.name).toEqual(app.user.name);
+  let compiled = fixture.nativeElement;
+  expect(compiled.querySelector('p').textContent).toContain(app.user.name);
+});
+```
+
+###### Async
+
+```js
+export class DataService {
+  getDetails() {
+    const promise =
+      new Promise() <
+      any >
+      ((resolve, reject) => {
+        setTimeout(() => {
+          resolve('Data');
+        }, 1500);
+      });
+    return promise;
+  }
+}
+```
+
+```js
+it('should fetch data', async(() => {
+  const fixture = TestBed.createComponent(AppComponent);
+  const app = fixture.componentInstance;
+  let service = fixture.injector.get(DataService);
+  let spy = spyOn(dataService, 'getDetails').and.returnValue(
+    Promise.resolve('Data')
+  );
+  fixture.detectChanges();
+  fixture.whenStable().then(() => {
+    expect(app.data).toBe('Data');
+  });
+}));
 ```
 
 [TOP](#content)
