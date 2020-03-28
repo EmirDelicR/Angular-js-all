@@ -22,6 +22,7 @@ Angular js guide
 - [Test Components with Jasmine](https://semaphoreci.com/community/tutorials/testing-components-in-angular-2-with-jasmine)
 - [Unit Tests](https://github.com/angular/angular-cli/wiki/test)
 - [E2E Tests](https://github.com/angular/angular-cli/wiki/e2e)
+- [Official Docs NgRx](https://ngrx.io)
 
 ## content
 
@@ -45,6 +46,7 @@ Angular js guide
 - [PWA](#pwa)
 - [Animations](#animations)
 - [Testing](#testing)
+- [State Management with NgRx](#ngrx)
 
 ## cli
 
@@ -2311,6 +2313,308 @@ it('should fetch data', async(() => {
     expect(app.data).toBe('Data');
   });
 }));
+```
+
+[TOP](#content)
+
+## ngrx
+
+NgRx (Redux) is state manager for Angular and it use to replace Services
+
+```console
+npm i @ngrx/store
+```
+
+###### Store DevTool
+
+Install Redux dev-tool in browser
+
+```console
+npm i --save-dev @ngrx/store-devtools
+```
+
+```js
+/* In app.module.ts */
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from 'src/environments/environment';
+@NgModule({
+  imports: [
+    StoreDevtoolsModule.instrument({ logOnly: environment.production }),
+  ],
+})
+```
+
+###### Store setup
+
+This is not mandatory this is just my structure
+
+1. Create a folder store/some-store example(store/shop)
+2. Inside create folder actions and reducer
+
+**_actions folder_**
+
+```js
+/* Create file store/action.types.ts */
+export const ADD_INGREDIENT = 'ADD_INGREDIENT';
+export const UPDATE_INGREDIENT = 'UPDATE_INGREDIENT';
+
+/* Create file shop.actions.ts */
+import { Action } from '@ngrx/store';
+import * as actionTypes from './action.types';
+import { Ingredient } from '../../../models/ingredient.model';
+
+export class AddIngredient implements Action {
+  readonly type = actionTypes.ADD_INGREDIENT;
+  constructor(public payload: Ingredient) {}
+}
+
+export class UpdateIngredient implements Action {
+  readonly type = actionTypes.UPDATE_INGREDIENT;
+
+  constructor(public payload: Ingredient) {}
+}
+
+/* Create type to use in reducer */
+export type ShopActions =
+  | AddIngredient
+  | UpdateIngredient
+```
+
+**_Reducer folder_**
+
+```js
+import { Ingredient } from '../../../models/ingredient.model';
+import * as actionTypes from '../../action.types';
+import { ShopActions } from '../actions/shop.actions';
+import { ShopState } from '../shop.interfaces';
+
+export interface ShopState {
+  ingredients: Ingredient[];
+  editedIngredient: Ingredient;
+  editedIngredientIndex: number;
+}
+
+const initialState: ShopState = {
+  ingredients: [new Ingredient('Appels', 10)],
+  editedIngredient: null,
+  editedIngredientIndex: -1
+};
+
+const shopReducer = (state: ShopState = initialState, action: ShopActions) => {
+  switch (action.type) {
+    case actionTypes.ADD_INGREDIENT:
+      return { ...state, ingredients: [...state.ingredients, action.payload] };
+
+    case actionTypes.UPDATE_INGREDIENT:
+      /* Always make a copy of state do not muted original state*/
+      const ingredient = state.ingredients[state.editedIngredientIndex];
+      const updatedIngredient = {
+        ...ingredient,
+        ...action.payload
+      };
+
+      const updatedIngredients = [...state.ingredients];
+      updatedIngredients[state.editedIngredientIndex] = updatedIngredient;
+
+      return {
+        ...state,
+        ingredients: updatedIngredients,
+        editedIngredient: null,
+        editedIngredientIndex: -1
+      };
+
+    default:
+      return state;
+  }
+};
+
+export { shopReducer };
+```
+
+###### Hook the store
+
+```js
+/* In app.module.ts file */
+import { StoreModule } from '@ngrx/store';
+import { shopReducer } from './store/shop/reducers/shop.reducer';
+
+@NgModule({
+  imports: [
+    StoreModule.forRoot({ shop: shopReducer }),
+  ],
+})
+```
+
+###### Use in component
+
+```js
+import { Store } from '@ngrx/store';
+import { Ingredient } from '../models/ingredient.model';
+import { Observable } from 'rxjs';
+
+export class ShopComponent implements OnInit {
+  ingredients: Observable<ShopState>;
+
+  constructor(
+     /*
+      NOTE:
+      1. shop - must mach name in app.module.ts (StoreModule.forRoot({ shop: shopReducer }),)
+     */
+    private store: Store<{ shop: ShopState }>
+  ) {}
+
+  ngOnInit(): void {
+    this.ingredients = this.store.select('shop');
+    /*
+      If you need this store in other places in file use .subscribe()
+      NOTE: angular will clear subscription but just for safe clear manually in OnDestroy hook
+    */
+  }
+```
+
+```html
+<!-- 
+  | async will resolve observable so you do not need to make 
+  subscription in .ts file
+-->
+<a *ngFor="let ingredient of (ingredients | async).ingredients; let i = index"
+  >{{ ingredient.name }} ({{ ingredient.amount }})
+</a>
+```
+
+###### Dispatch action
+
+```js
+import { AddIngredient } from '../../store/shop/actions/shop.actions';
+
+this.store.dispatch(new AddIngredient(newIngredient));
+```
+
+###### Merge to one root reducer
+
+```js
+/* Create app.interface.ts file */
+import { ShopState } from './shop/shop.interfaces';
+import { AuthState } from './auth/auth.interfaces';
+
+export interface AppState {
+  shop: ShopState;
+  auth: AuthState;
+}
+
+/* Create app.reducer.ts file */
+import { ActionReducerMap } from '@ngrx/store';
+import { AppState } from './app-state.interfaces';
+import { shopReducer } from './shop/reducers/shop.reducer';
+import { authReducer } from './auth/reducers/auth.reducers';
+
+export const appReducer: ActionReducerMap<AppState> = {
+  shop: shopReducer,
+  auth: authReducer
+};
+
+/* In app.module.ts */
+import { appReducer } from './store/app.reducers';
+@NgModule({
+  declarations: [AppComponent, HeaderComponent],
+  imports: [
+    StoreModule.forRoot(appReducer),
+   ],
+})
+```
+
+###### NgRx effects
+
+Use this to manage async call
+
+```console
+npm i @ngrx/effects
+```
+
+```js
+/* Create a effect */
+import { Actions, ofType, Effect } from '@ngrx/effects';
+import * as actionTypes from '../../action.types';
+import { switchMap, catchError, map, tap } from 'rxjs/operators';
+import { LoginStart, Login, LoginFail } from '../actions/auth.actions';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+
+import { SIGN_UP_URL, API_KEY, SIGN_IN_URL } from '../../../env/api';
+import { AuthResponseData } from '../auth.interfaces';
+import { of } from 'rxjs';
+import { User } from 'src/app/models/user.model';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+
+const FULL_SIGN_IN_URL = `${SIGN_IN_URL}${API_KEY}`;
+const FULL_SIGN_UP_URL = `${SIGN_UP_URL}${API_KEY}`;
+
+@Injectable()
+export class AuthEffects {
+  @Effect() authLogin = this.actions$.pipe(
+    /** It will run only this action add multiple actions by adding ,  */
+    ofType(actionTypes.LOGIN_START),
+    switchMap((authData: LoginStart) => {
+      const data = {
+        ...authData.payload,
+        returnSecureToken: true
+      };
+      return this.http.post<AuthResponseData>(FULL_SIGN_IN_URL, data).pipe(
+        map(resData => {
+          const expirationDate = new Date(
+            new Date().getTime() + +resData.expiresIn * 1000
+          );
+          const user = new User(
+            resData.email,
+            resData.localId,
+            resData.idToken,
+            expirationDate
+          );
+          return new Login(user);
+        }),
+        catchError(error => {
+          /** NOTE must return non error observable do it with of() */
+          const message = this.errorHandler(error);
+          return of(new LoginFail(message));
+        })
+      );
+    })
+  );
+
+  @Effect({ dispatch: false })
+  authSuccess = this.actions$.pipe(
+    ofType(actionTypes.LOGIN),
+    tap(() => {
+      this.router.navigate(['/']);
+    })
+  );
+  /** You can add $ at end to specify that this is observable */
+  constructor(
+    private actions$: Actions,
+    private http: HttpClient,
+    private router: Router
+  ) {}
+
+  private errorHandler(errorRes: HttpErrorResponse) {
+    if (!errorRes.error || !errorRes.error.error) {
+      return 'Network Error';
+    }
+
+    return `${errorRes.error.error.code}: ${errorRes.error.error.message}`;
+  }
+}
+```
+
+```js
+/* Register effect in app.module.ts */
+import { EffectsModule } from '@ngrx/effects';
+import { AuthEffects } from './store/auth/effect/auth.effects';
+
+@NgModule({
+  imports: [
+    EffectsModule.forRoot([AuthEffects]),
+  ],
+})
 ```
 
 [TOP](#content)
