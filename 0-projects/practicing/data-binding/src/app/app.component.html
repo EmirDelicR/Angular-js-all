@@ -1,0 +1,19 @@
+<div>
+  <label>Username:</label>
+  <input type="text" [(ngModel)]="username" />
+  <p>{{ username }}</p>
+  <button [disabled]="isEmpty" (click)="clearUsername()">Clear</button>
+  <br />
+  <hr />
+  <br />
+  <button (click)="toggleParagraph()">Display details</button>
+  <p *ngIf="!isHidden">This is test!</p>
+  <ul>
+    <li
+      *ngFor="let log of logs; let i = index"
+      [ngStyle]="{ backgroundColor: i + 1 === 5 ? 'blue' : 'white' }"
+    >
+      {{ log }}
+    </li>
+  </ul>
+</div>

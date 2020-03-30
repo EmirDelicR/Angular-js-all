@@ -1,0 +1,24 @@
+<div>
+  <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <label>Email: </label>
+    <input type="email" ngModel name="email" required email #email="ngModel" />
+    <span *ngIf="!email.valid && email.touched">Enter valid email!</span>
+    <br />
+    <label>Subscription: </label>
+    <select [ngModel]="selectedItem" name="subscription">
+      <option *ngFor="let item of list" [value]="item">{{ item }}</option>
+    </select>
+    <br />
+    <label>Password: </label>
+    <input type="password" ngModel name="password" required />
+    <br />
+    <button type="submit" [disabled]="!f.valid">Submit</button>
+    <button type="button" (click)="clearForm(f)">Clear</button>
+  </form>
+  <div *ngIf="data">
+    <h3>Form Data:</h3>
+    <p>Email: {{ data.email }}</p>
+    <p>Subscription: {{ data.subscription }}</p>
+    <p>Password: {{ data.password }}</p>
+  </div>
+</div>

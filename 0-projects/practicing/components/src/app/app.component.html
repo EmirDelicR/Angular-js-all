@@ -1,0 +1,17 @@
+<div>
+  <app-success-alert *ngIf="isSuccess"></app-success-alert>
+  <app-warning-alert *ngIf="isWarning"></app-warning-alert>
+  <div>
+    <button (click)="toggleSuccess()">Toggle Success</button>
+    <button (click)="toggleWarning()">Toggle Warning</button>
+  </div>
+
+  <hr />
+  <div>
+    <app-alert [settings]="alertSettings"></app-alert>
+  </div>
+  <button (click)="toggleAlert('error')">Error</button>
+  <button (click)="toggleAlert('warning')">Warning</button>
+  <button (click)="toggleAlert('success')">Success</button>
+  <button (click)="toggleAlert('normal')">Normal</button>
+</div>

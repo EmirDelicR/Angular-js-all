@@ -1,0 +1,9 @@
+<div>
+  <p>Test reverse: {{ title | reverse }}</p>
+  <p>Test sort:</p>
+  <ul>
+    <li *ngFor="let item of unsortedArray | sort: 'desc' as list">
+      {{ item }}
+    </li>
+  </ul>
+</div>
