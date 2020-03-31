@@ -33,7 +33,7 @@
       </small>
     </div>
     <hr />
-    <div>
+    <div ngModelGroup="passwordGroup" #passwordGroup="ngModelGroup">
       <label>Password: </label>
       <input
         type="password"
@@ -41,15 +41,16 @@
         [ngModel]="user.password"
         required
         #password="ngModel"
-        appPasswordValidator="confirmPassword"
-        reverse="true"
+        (input)="confirmPassword.control.updateValueAndValidity()"
       />
-      <small [hidden]="password.valid || (password.pristine && !f.submitted)">
+      <small *ngIf="password.touched && password.errors?.required">
         Password is required
       </small>
-    </div>
-    <hr />
-    <div>
+
+      <pre>{{ password.errors | json }} </pre>
+
+      <hr />
+
       <label>Retype password: </label>
       <input
         type="password"
@@ -59,14 +60,23 @@
         appPasswordValidator="password"
         #confirmPassword="ngModel"
       />
+      <small *ngIf="confirmPassword.touched && confirmPassword.errors?.required"
+        >Confirm password is required
+      </small>
       <small
-        [hidden]="
-          confirmPassword.valid || (confirmPassword.pristine && !f.submitted)
+        *ngIf="
+          confirmPassword.touched &&
+          confirmPassword.errors?.notEqual &&
+          !confirmPassword.errors?.required
         "
         >Password mismatch
       </small>
+      <pre>{{ confirmPassword.errors | json }} </pre>
     </div>
     <hr />
     <button type="submit" [disabled]="!f.valid">Submit</button>
+
+    <pre>{{ f.value | json }}</pre>
+    <pre> {{ user | json }} </pre>
   </form>
 </button>
