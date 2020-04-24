@@ -1,0 +1,25 @@
+.main-nav {
+  $nav-color: rgb(0, 174, 255);
+
+  height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $nav-color;
+  border-bottom: 1px solid;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    margin-left: 135px;
+    border: 1px solid red;
+  }
+
+  &__control {
+    display: flex;
+    height: 22px;
+    width: 100px;
+    margin-right: 140px;
+    border: 1px solid blue;
+  }
+}
