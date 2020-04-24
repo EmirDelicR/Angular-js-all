@@ -1,7 +1,6 @@
 @import '../../../styles/css/breakpoints';
 
 .logo {
-  @debug 'logo';
   $size: 25px;
   height: $size;
   width: $size;

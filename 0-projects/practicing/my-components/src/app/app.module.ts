@@ -8,6 +8,7 @@ import { DownloadRowComponent } from './components/download/download-row/downloa
 import { LanguageSwitcherComponent } from './components/language-switcher/language-switcher.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { LogoComponent } from './components/logo/logo.component';
+import { CentralNavComponent } from './components/navigation/central-nav/central-nav.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { LogoComponent } from './components/logo/logo.component';
     LanguageSwitcherComponent,
     NavigationComponent,
     LogoComponent,
+    CentralNavComponent,
   ],
   imports: [BrowserModule, FontAwesomeModule],
   providers: [],

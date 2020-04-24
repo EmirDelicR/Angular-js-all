@@ -1,0 +1,27 @@
+@import 'src/styles/css/breakpoints';
+
+.central-nav {
+  height: 40px;
+  display: none;
+
+  &__element {
+    font-size: 14px;
+    letter-spacing: 0;
+    padding: 10px 25px;
+    border-radius: 5px;
+
+    &:hover {
+      background-color: rgba(1, 1, 1, 0.1);
+      cursor: pointer;
+    }
+  }
+
+  &--active {
+    border-bottom: 2px solid blue;
+    background-color: rgba(1, 1, 1, 0.1);
+  }
+
+  @include respond-to('md') {
+    display: flex;
+  }
+}

@@ -1,1 +1,9 @@
-<p>language-switcher works!</p>
+<div class="lang-switch">
+  <button type="button" class="lang-switch__btn" (click)="toggle()">
+    <span class="lang-switch__flag">
+      <fa-icon [icon]="faGlobe"></fa-icon>
+    </span>
+    <span class="lang-switch__placeholder">EN</span>
+    <fa-icon [icon]="faArrow" class="lang-switch__arrow"></fa-icon>
+  </button>
+</div>

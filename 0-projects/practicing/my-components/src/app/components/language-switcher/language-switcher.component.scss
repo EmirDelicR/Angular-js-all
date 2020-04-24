@@ -1,0 +1,50 @@
+.lang-switch {
+  margin-left: 20px;
+  font-size: 14px;
+
+  &__btn {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border: none;
+    padding: 0;
+    background-color: transparent;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__arrow {
+    transition: all ease-in-out 300ms;
+    font-size: 15px;
+    margin-left: 5px;
+    font-weight: 900;
+  }
+
+  &__flag {
+    border: 1px solid blue;
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-right: 3px;
+    padding: 0;
+  }
+
+  &__placeholder {
+    width: 18px;
+    letter-spacing: 0;
+  }
+
+  .open {
+    .lang-switch__arrow {
+      transform: rotate(180deg);
+    }
+  }
+}

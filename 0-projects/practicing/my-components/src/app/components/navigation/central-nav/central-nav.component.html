@@ -1,0 +1,9 @@
+<div class="central-nav">
+  <div
+    class="central-nav__element"
+    *ngFor="let item of navElements; let i = index"
+    [ngClass]="{ 'central-nav--active': i === 0 }"
+  >
+    {{ item }}
+  </div>
+</div>

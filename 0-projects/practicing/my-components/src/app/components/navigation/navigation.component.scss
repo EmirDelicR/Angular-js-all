@@ -4,22 +4,20 @@
   height: 65px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   color: $nav-color;
-  border-bottom: 1px solid;
+  border-bottom: 1px solid $nav-color;
 
   &__header {
     display: flex;
     align-items: center;
     margin-left: 135px;
-    border: 1px solid red;
   }
 
-  &__control {
+  &__controls {
     display: flex;
     height: 22px;
     width: 100px;
     margin-right: 140px;
-    border: 1px solid blue;
   }
 }
