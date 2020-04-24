@@ -1,0 +1,17 @@
+.headline {
+  position: relative;
+  padding: 0.4em 0;
+  margin-bottom: 1em;
+  line-height: 1.2;
+  font-weight: 900;
+  font-size: 20px;
+
+  &:before {
+    content: '';
+    width: 40px;
+    height: 2px;
+    position: absolute;
+    bottom: 0;
+    background-color: black;
+  }
+}

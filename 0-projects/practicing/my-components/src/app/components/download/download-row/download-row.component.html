@@ -1,1 +1,46 @@
-<p>download-row works!</p>
+<div class="download-row">
+  <div class="download-row__element download-row__download">
+    <a [href]="item.file.src" download="{{ item.title }}.{{ item.file.ext }}">
+      <span class="download-row__icon-wrapper">
+        <fa-icon [icon]="faDownload"></fa-icon>
+      </span>
+    </a>
+  </div>
+  <div class="download-row__separator"></div>
+  <div class="download-row__element-wrapper">
+    <div class="download-row__element download-row--big">
+      {{ item.title }}
+    </div>
+    <div class="download-row__separator sm-hide"></div>
+    <div class="download-row__element text-center">
+      <div class="document-icon" [style.backgroundColor]="item.file.color">
+        {{ item.file.ext | uppercase }}
+      </div>
+      <div class="download-row__element md-hide">
+        <fa-icon [icon]="faInfo"></fa-icon>
+      </div>
+    </div>
+
+    <div class="download-row__separator sm-hide"></div>
+    <div class="download-row__element download-row--big sm-hide">
+      {{ item.type }}
+    </div>
+    <div class="download-row__separator sm-hide"></div>
+    <div class="download-row__element sm-hide">
+      {{ item.date }}
+    </div>
+    <div class="download-row__separator sm-hide"></div>
+    <div class="download-row__element sm-hide text-center">
+      <fa-icon [icon]="faInfo"></fa-icon>
+    </div>
+    <div class="download-row__separator sm-hide"></div>
+    <div class="download-row__element sm-hide text-center">
+      <fa-icon [icon]="faStar"></fa-icon>
+    </div>
+    <div class="download-row__separator sm-hide"></div>
+    <div class="download-row__element sm-hide">
+      {{ item.lang }}
+      <fa-icon [icon]="faAngleRight"></fa-icon>
+    </div>
+  </div>
+</div>

@@ -1,1 +1,8 @@
-@import '../styles/css/reset';
+@import 'src/styles/css/reset';
+@import 'src/styles/css/atoms/headline.scss';
+
+section {
+  border-bottom: 1px solid black;
+  margin: 0;
+  padding: 10px;
+}

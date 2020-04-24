@@ -1,0 +1,21 @@
+@import './breakpoints';
+
+.sm-hide {
+  display: none !important;
+
+  @include respond-to('md') {
+    display: flex !important;
+  }
+}
+
+.md-hide {
+  display: flex !important;
+
+  @include respond-to('md') {
+    display: none !important;
+  }
+}
+
+.text-center {
+  justify-content: center;
+}

@@ -1,1 +1,6 @@
-<p>download-list works!</p>
+<div class="download">
+  <app-download-row
+    *ngFor="let item of myData"
+    [item]="item"
+  ></app-download-row>
+</div>

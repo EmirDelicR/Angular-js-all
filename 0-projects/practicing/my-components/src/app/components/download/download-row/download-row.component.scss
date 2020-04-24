@@ -1,0 +1,81 @@
+@import 'src/styles/css/breakpoints';
+@import 'src/styles/css/atoms/document-icon.scss';
+@import 'src/styles/css/display.scss';
+
+.download-row {
+  display: flex;
+  align-items: center;
+  border: 1px solid grey;
+  border-radius: 5px;
+  height: 90px;
+  margin-bottom: 6px;
+
+  @include respond-to('md') {
+    &:hover {
+      background-color: rgba(75, 75, 77, 0.05);
+    }
+  }
+
+  &__download {
+    min-width: 40px;
+    justify-content: center;
+
+    @include respond-to('md') {
+      min-width: 55px;
+
+      &:hover {
+        color: red;
+      }
+    }
+  }
+
+  &__icon-wrapper {
+    color: grey;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  &__element-wrapper {
+    display: flex;
+    flex-direction: column;
+    line-height: 20px;
+    letter-spacing: 0.2px;
+    font-size: 14px;
+    width: 100%;
+    padding-left: 6px;
+    align-content: space-between;
+
+    @include respond-to('md') {
+      flex-direction: row;
+      font-size: 16px;
+      line-height: 24px;
+      align-items: center;
+      padding-left: 0px;
+    }
+  }
+
+  &__element {
+    display: flex;
+    max-height: 42px;
+
+    @include respond-to('md') {
+      font-size: 14px;
+      flex: 0 0 50px;
+      max-height: 62px;
+      padding: 0 10px;
+    }
+  }
+
+  &__separator {
+    border-right: 1px solid lightgrey;
+    height: 60px;
+
+    @include respond-to('md') {
+      height: 50px;
+    }
+  }
+
+  &--big {
+    flex-grow: 1;
+  }
+}

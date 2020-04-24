@@ -1,15 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-
-interface DownloadData {
-  title: string;
-  lang: string;
-  description: string;
-  date: string;
-  type: {
-    name: string;
-    color: string;
-  };
-}
+import { Component, OnInit, Input } from '@angular/core';
+import { DownloadData } from 'src/app/interfaces/download.module';
+import {
+  faDownload,
+  faInfoCircle,
+  faStar,
+  faAngleRight,
+} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-download-row',
@@ -17,7 +13,15 @@ interface DownloadData {
   styleUrls: ['./download-row.component.scss'],
 })
 export class DownloadRowComponent implements OnInit {
+  @Input() item: DownloadData;
+  faDownload = faDownload;
+  faInfo = faInfoCircle;
+  faStar = faStar;
+  faAngleRight = faAngleRight;
+
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.item);
+  }
 }
