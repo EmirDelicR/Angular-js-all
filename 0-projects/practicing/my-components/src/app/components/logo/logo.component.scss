@@ -1,6 +1,25 @@
+@import '../../../styles/css/breakpoints';
+
 .logo {
+  @debug 'logo';
   $size: 25px;
   height: $size;
   width: $size;
   font-size: $size;
+
+  &__element {
+    color: rgb(0, 102, 255);
+
+    @include respond-to('sm') {
+      color: red;
+    }
+
+    @include respond-to('md') {
+      color: green;
+    }
+
+    @include respond-to('lg') {
+      color: black;
+    }
+  }
 }
