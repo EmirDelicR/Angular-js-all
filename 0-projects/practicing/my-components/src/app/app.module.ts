@@ -11,6 +11,10 @@ import { LogoComponent } from './components/logo/logo.component';
 import { CentralNavComponent } from './components/navigation/central-nav/central-nav.component';
 import { DownloadInfoComponent } from './components/download/download-info/download-info.component';
 import { ModalComponent } from './components/modal/modal.component';
+import { DownloadInfoHeaderComponent } from './components/download/download-info/download-info-header/download-info-header.component';
+import { DownloadInfoBodyComponent } from './components/download/download-info/download-info-body/download-info-body.component';
+import { DownloadInfoFooterComponent } from './components/download/download-info/download-info-footer/download-info-footer.component';
+import { TruncateOverflowDirective } from './directives/truncate-overflow.directive';
 
 @NgModule({
   declarations: [
@@ -23,6 +27,10 @@ import { ModalComponent } from './components/modal/modal.component';
     CentralNavComponent,
     DownloadInfoComponent,
     ModalComponent,
+    DownloadInfoHeaderComponent,
+    DownloadInfoBodyComponent,
+    DownloadInfoFooterComponent,
+    TruncateOverflowDirective,
   ],
   imports: [BrowserModule, FontAwesomeModule],
   providers: [],
