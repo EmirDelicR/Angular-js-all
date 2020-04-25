@@ -1,0 +1,28 @@
+<div
+  class="modal-backdrop fade"
+  [class.show]="show"
+  [ngClass]="backDropModifier"
+  [class.none]="!display"
+  (click)="closeModal()"
+></div>
+
+<div
+  class="modal fade {{ modalModifier }}"
+  [class.show]="show"
+  [class.block]="display"
+  tabindex="-1"
+  role="dialog"
+>
+  <div class="modal-dialog modal-dialog-scroll" role="document">
+    <button
+      type="button"
+      class="btn btn-close close"
+      [ngClass]="closeBtnModifier"
+      (click)="closeModal()"
+      aria-label="Close"
+    >
+      X
+    </button>
+    <ng-content></ng-content>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+@import 'src/styles/css/display.scss';
+@import 'src/styles/css/breakpoints.scss';
+@import 'src/styles/css/atoms/modal.scss';
+
+.modal {
+  &-body {
+    padding: 0;
+  }
+
+  @include respond-to('md') {
+    &-header {
+      height: 70px;
+      align-items: center;
+      padding: 0;
+      margin-bottom: 20px;
+    }
+  }
+
+  @include respond-to('lg') {
+    &-header {
+      padding: 70px 70px 0;
+      border-bottom: 0;
+    }
+
+    &-body {
+      padding: 70px;
+
+      &:not(:first-child) {
+        padding-top: 0;
+      }
+    }
+
+    &-with-filters {
+      padding-bottom: 140px;
+    }
+  }
+}

@@ -10,6 +10,7 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { LogoComponent } from './components/logo/logo.component';
 import { CentralNavComponent } from './components/navigation/central-nav/central-nav.component';
 import { DownloadInfoComponent } from './components/download/download-info/download-info.component';
+import { ModalComponent } from './components/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { DownloadInfoComponent } from './components/download/download-info/downl
     LogoComponent,
     CentralNavComponent,
     DownloadInfoComponent,
+    ModalComponent,
   ],
   imports: [BrowserModule, FontAwesomeModule],
   providers: [],
