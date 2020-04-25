@@ -1,37 +1,89 @@
 @import 'src/styles/css/display.scss';
 @import 'src/styles/css/breakpoints.scss';
-@import 'src/styles/css/atoms/modal.scss';
+@import 'src/styles/css/animations/animations.scss';
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1040;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  animation: 0.3s ease-in-out forwards;
+
+  &.fade {
+    opacity: 0;
+  }
+  &.show {
+    animation-name: fadeIn;
+  }
+}
 
 .modal {
-  &-body {
-    padding: 0;
-  }
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1050;
+  pointer-events: none;
+  overflow: hidden;
+  outline: 0;
 
-  @include respond-to('md') {
-    &-header {
-      height: 70px;
-      align-items: center;
-      padding: 0;
-      margin-bottom: 20px;
+  .modal-dialog {
+    display: flex;
+    position: relative;
+    width: auto;
+    margin: 0.5rem;
+    pointer-events: none;
+
+    @include respond-to('md') {
+      margin: 60px 100px 0;
+      height: calc(100% - 60px);
+      max-height: calc(100% - 60px);
     }
-  }
 
-  @include respond-to('lg') {
-    &-header {
-      padding: 70px 70px 0;
-      border-bottom: 0;
+    .modal.fade & {
+      transition: transform 0.3s ease-out;
+      transform: translate(0, -50px);
     }
 
-    &-body {
-      padding: 70px;
+    .modal.show & {
+      transform: none;
+    }
 
-      &:not(:first-child) {
-        padding-top: 0;
+    .close {
+      width: 40px;
+      height: 40px;
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 1070;
+      transition: transform 0.3s ease-in-out;
+      cursor: pointer;
+      pointer-events: auto;
+      background-color: white;
+      border: none;
+      font-size: 18px;
+      border-radius: 50%;
+
+      &:focus,
+      &:hover {
+        color: black;
+        box-shadow: none;
       }
-    }
 
-    &-with-filters {
-      padding-bottom: 140px;
+      @include respond-to('md') {
+        right: -20px;
+        top: -20px;
+        background-color: white;
+        font-size: 24px;
+        box-shadow: none;
+        border-radius: 50%;
+        border: 1px solid lightgray;
+      }
     }
   }
 }

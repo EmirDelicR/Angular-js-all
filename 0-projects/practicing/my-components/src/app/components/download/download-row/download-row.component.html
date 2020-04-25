@@ -17,7 +17,10 @@
         {{ item.file.ext | uppercase }}
       </div>
       <div class="download-row__element md-hide">
-        <span class="download-row__icon-wrapper">
+        <span
+          class="download-row__icon-wrapper"
+          (click)="infoModal.openModal()"
+        >
           <fa-icon [icon]="faInfo"></fa-icon>
         </span>
       </div>
@@ -33,7 +36,10 @@
     </div>
     <div class="download-row__separator sm-hide"></div>
     <div class="download-row__element sm-hide text-center">
-      <span class="download-row__icon-wrapper info">
+      <span
+        class="download-row__icon-wrapper info"
+        (click)="infoModal.openModal()"
+      >
         <fa-icon [icon]="faInfo"></fa-icon>
       </span>
     </div>
@@ -49,4 +55,13 @@
       <fa-icon [icon]="faAngleRight"></fa-icon>
     </div>
   </div>
+
+  <app-modal #infoModal>
+    <app-download-info
+      *ngIf="infoModal.show"
+      [item]="item"
+      (closeModal)="infoModal.closeModal()"
+      [ngStyle]="{ width: '100%' }"
+    ></app-download-info>
+  </app-modal>
 </div>
