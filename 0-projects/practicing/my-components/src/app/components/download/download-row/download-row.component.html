@@ -17,7 +17,9 @@
         {{ item.file.ext | uppercase }}
       </div>
       <div class="download-row__element md-hide">
-        <fa-icon [icon]="faInfo"></fa-icon>
+        <span class="download-row__icon-wrapper">
+          <fa-icon [icon]="faInfo"></fa-icon>
+        </span>
       </div>
     </div>
 
@@ -31,11 +33,15 @@
     </div>
     <div class="download-row__separator sm-hide"></div>
     <div class="download-row__element sm-hide text-center">
-      <fa-icon [icon]="faInfo"></fa-icon>
+      <span class="download-row__icon-wrapper info">
+        <fa-icon [icon]="faInfo"></fa-icon>
+      </span>
     </div>
     <div class="download-row__separator sm-hide"></div>
     <div class="download-row__element sm-hide text-center">
-      <fa-icon [icon]="faStar"></fa-icon>
+      <span class="download-row__icon-wrapper" (click)="toggle('star')">
+        <fa-icon class="star" [icon]="faStar"></fa-icon>
+      </span>
     </div>
     <div class="download-row__separator sm-hide"></div>
     <div class="download-row__element sm-hide">

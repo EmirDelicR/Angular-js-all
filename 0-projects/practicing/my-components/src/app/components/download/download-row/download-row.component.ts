@@ -21,7 +21,10 @@ export class DownloadRowComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {
-    console.log(this.item);
+  ngOnInit(): void {}
+
+  toggle(className: string) {
+    const $elem = document.getElementsByClassName(`fa-${className}`)[0];
+    $elem.parentElement.classList.toggle(className);
   }
 }

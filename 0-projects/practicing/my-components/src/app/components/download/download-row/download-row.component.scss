@@ -33,6 +33,7 @@
     color: grey;
     font-size: 20px;
     cursor: pointer;
+    z-index: 10;
   }
 
   &__element-wrapper {
@@ -43,7 +44,6 @@
     font-size: 14px;
     width: 100%;
     padding-left: 6px;
-    align-content: space-between;
 
     @include respond-to('md') {
       flex-direction: row;

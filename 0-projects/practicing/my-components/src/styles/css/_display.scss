@@ -17,5 +17,15 @@
 }
 
 .text-center {
-  justify-content: center;
+  @include respond-to('md') {
+    justify-content: center;
+  }
+}
+
+.info {
+  color: rgb(0, 174, 255) !important;
+}
+
+.star {
+  color: yellow !important;
 }
