@@ -1,6 +1,7 @@
 export const data = [
   {
-    title: 'Item_1',
+    title:
+      'Item_1 dsadasd dsad asd d as dasdasdasdasd asd asdd asd asdasd  dsa dasdasda d dsa dasdasdas  das das dasda d asdad asd sda dasd asda d asdasdad dasdasd dasd dsad sad asd',
     type: 'Operation type',
     date: '13.11.2019',
     lang: 'EN',
@@ -20,6 +21,7 @@ export const data = [
           ext: 'pdf',
         },
         date: '15.04.2020',
+        lang: 'DE',
       },
       {
         title: 'Item_1_FR',
@@ -28,6 +30,7 @@ export const data = [
           ext: 'doc',
         },
         date: '15.04.2020',
+        lang: 'FR',
       },
     ],
   },
@@ -52,6 +55,7 @@ export const data = [
           ext: 'pdf',
         },
         date: '15.04.2020',
+        lang: 'DE',
       },
       {
         title: 'Item_2_FR',
@@ -60,6 +64,7 @@ export const data = [
           ext: 'doc',
         },
         date: '15.04.2020',
+        lang: 'FR',
       },
     ],
   },

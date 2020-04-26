@@ -1,0 +1,12 @@
+@import '../breakpoints';
+
+.info-icon {
+  display: flex;
+  flex: 0 0 40px;
+  margin-right: 10px;
+  justify-content: center;
+
+  @include respond-to('md') {
+    justify-content: left;
+  }
+}

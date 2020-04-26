@@ -1,0 +1,10 @@
+@import 'src/styles/css/atoms/headline.scss';
+@import 'src/styles/css/display';
+
+.info-header {
+  &__title {
+    height: 40px;
+    font-size: 18px;
+    margin: 0;
+  }
+}

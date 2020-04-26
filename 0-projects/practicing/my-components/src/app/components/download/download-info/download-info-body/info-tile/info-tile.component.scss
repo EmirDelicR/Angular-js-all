@@ -1,0 +1,55 @@
+@import 'src/styles/css/breakpoints';
+@import 'src/styles/css/atoms/info-icon';
+
+.info-tile {
+  line-height: 20px;
+  font-size: 14px;
+  margin-bottom: 14px;
+
+  @include respond-to('md') {
+    padding: 0;
+    margin-right: 30px;
+    margin-bottom: 60px;
+
+    &__element {
+      flex-direction: column;
+    }
+  }
+
+  &__element {
+    display: flex;
+  }
+
+  &__info-data {
+    flex-direction: column;
+    padding-left: 10px;
+
+    @include respond-to('md') {
+      padding-left: 0;
+    }
+  }
+
+  &__icon-wrapper {
+    line-height: 1.5;
+    font-size: 18px;
+  }
+
+  &__headline {
+    font-weight: 900;
+    line-height: 22px;
+    font-size: 14px;
+    margin-top: 0;
+    margin-bottom: 14px;
+
+    @include respond-to('md') {
+      margin-top: 10px;
+      font-size: 18px;
+      letter-spacing: 0.4px;
+      line-height: 22px;
+    }
+  }
+
+  &__content {
+    line-height: 1;
+  }
+}

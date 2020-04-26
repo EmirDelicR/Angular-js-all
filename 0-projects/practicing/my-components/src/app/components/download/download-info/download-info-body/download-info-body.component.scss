@@ -1,0 +1,15 @@
+@import 'src/styles/css/breakpoints';
+
+.download-body {
+  &__info-wrapper {
+    @include respond-to('md') {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+
+      .info-tile-wrapper {
+        flex: 1 0 33%;
+      }
+    }
+  }
+}

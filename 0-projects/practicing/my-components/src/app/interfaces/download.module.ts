@@ -8,6 +8,8 @@ export interface DownloadDocument {
   title: string;
   file: DownloadFile;
   date: string;
+  lang: string;
+  favorite?: boolean;
 }
 
 export interface DownloadData {

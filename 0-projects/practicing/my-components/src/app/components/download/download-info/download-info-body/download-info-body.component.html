@@ -1,0 +1,22 @@
+<div class="download-body">
+  <h3 class="download-body__subheader" *ngIf="show">
+    {{ item.subHeadlineInfo }}
+  </h3>
+  <h3 class="download-body__subheader" *ngIf="!show">
+    {{ item.subHeadlineLang }}
+  </h3>
+
+  <div class="download-body__info-wrapper" *ngIf="show">
+    <app-info-tile
+      class="info-tile-wrapper"
+      *ngFor="let meta of [].constructor(7)"
+    ></app-info-tile>
+  </div>
+
+  <div class="download-body__lang-wrapper" *ngIf="!show">
+    <app-multi-tile
+      *ngFor="let document of item.documents"
+      [document]="document"
+    ></app-multi-tile>
+  </div>
+</div>

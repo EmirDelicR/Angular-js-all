@@ -1,0 +1,25 @@
+<div class="info-footer">
+  <div
+    class="info-footer__element"
+    (click)="toggleBodyLayout(false)"
+    [ngClass]="{ 'info-footer--active': !isActive }"
+  >
+    {{ data.lang }}
+  </div>
+
+  <div class="info-footer__separator"></div>
+
+  <div
+    class="info-footer__element"
+    (click)="toggleBodyLayout(true)"
+    [ngClass]="{ 'info-footer--active': isActive }"
+  >
+    <fa-icon [icon]="faInfo"></fa-icon>
+  </div>
+
+  <div class="info-footer__separator"></div>
+
+  <div class="info-footer__element info-footer--big">
+    <button>Test</button>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+<div class="multi-tile">
+  <div class="multi-tile__element">
+    <input
+      class="radio-btn radio-btn--red"
+      type="radio"
+      (change)="toggleState($event)"
+    />
+  </div>
+
+  <div class="multi-tile__separator"></div>
+  <div
+    class="multi-tile__element multi-tile--position multi-tile__element--big"
+  >
+    {{ document.title }}
+  </div>
+  <div class="multi-tile__separator"></div>
+
+  <div
+    class="multi-tile__element multi-tile__date multi-tile--position multi-tile__element--big"
+  >
+    {{ document.date }}
+  </div>
+  <div class="multi-tile__separator"></div>
+  <div class="multi-tile__element multi-tile--position">
+    {{ document.lang }}
+  </div>
+</div>

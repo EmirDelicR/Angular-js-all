@@ -1,0 +1,66 @@
+@import 'src/styles/css/breakpoints';
+@import 'src/styles/css/display';
+@import 'src/styles/css/atoms/radio-btn';
+
+.multi-tile {
+  display: flex;
+  height: 90px;
+  background-color: white;
+  border: 1px solid lightgrey;
+  margin: 10px 0;
+  align-items: center;
+
+  @include respond-to('md') {
+    border-radius: 5px;
+    margin: 10px 0px;
+
+    &:hover {
+      background-color: rgba(1, 1, 1, 0.1);
+    }
+  }
+
+  &__element {
+    display: flex;
+    flex: 0 0 40px;
+    justify-content: center;
+    color: gray;
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    line-height: 20px;
+
+    @include respond-to('md') {
+      font-size: 16px;
+      line-height: 24px;
+    }
+
+    &--big {
+      flex-grow: 1;
+    }
+  }
+
+  &__date {
+    max-width: 196px;
+  }
+
+  &__separator {
+    border-right: 1px solid #d5d5d5;
+    height: 50px;
+
+    @include respond-to('md') {
+      height: 48px;
+    }
+  }
+
+  &--position {
+    justify-content: start;
+    padding: 0 16px;
+
+    @include respond-to('md') {
+      padding: 0 32px 0 16px;
+    }
+  }
+}
+
+.checked {
+  background-color: lightblue;
+}
