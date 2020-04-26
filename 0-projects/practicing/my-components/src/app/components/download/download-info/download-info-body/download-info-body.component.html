@@ -17,6 +17,7 @@
     <app-multi-tile
       *ngFor="let document of item.documents"
       [document]="document"
+      (setFile)="setDownloadFIle($event)"
     ></app-multi-tile>
   </div>
 </div>

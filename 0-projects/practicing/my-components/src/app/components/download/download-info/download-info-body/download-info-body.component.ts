@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { DownloadData } from '../../../../interfaces/download.module';
 
 @Component({
@@ -9,7 +9,12 @@ import { DownloadData } from '../../../../interfaces/download.module';
 export class DownloadInfoBodyComponent implements OnInit {
   @Input() item: DownloadData;
   @Input() show: boolean;
+  @Output() setFile = new EventEmitter<DownloadData>();
   constructor() {}
 
   ngOnInit(): void {}
+
+  setDownloadFIle(data: DownloadData) {
+    this.setFile.emit(data);
+  }
 }

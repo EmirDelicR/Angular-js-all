@@ -7,6 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { DownloadDocument } from 'src/app/interfaces/download.module';
+import { Element } from '@angular/compiler';
 
 @Component({
   selector: 'app-multi-tile',
@@ -20,8 +21,8 @@ export class MultiTileComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {}
 
-  toggleState(elem: HTMLInputElement) {
-    const $root = elem.closest('.multi-tile');
+  toggleState(elem: any) {
+    const $root = elem.target.closest('.multi-tile');
     this.unCheckElement();
     $root.classList.add('checked');
 

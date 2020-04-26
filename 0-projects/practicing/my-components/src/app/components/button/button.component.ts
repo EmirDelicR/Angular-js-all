@@ -15,9 +15,7 @@ export class ButtonComponent implements OnInit {
   @Output() buttonClicked = new EventEmitter();
   constructor() {}
 
-  ngOnInit(): void {
-    console.log(this.downloadLink);
-  }
+  ngOnInit(): void {}
 
   onButtonClick() {
     this.buttonClicked.emit();

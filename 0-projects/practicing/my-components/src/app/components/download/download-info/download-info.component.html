@@ -7,6 +7,7 @@
     <app-download-info-body
       [item]="item"
       [show]="showInfo"
+      (setFile)="onDownloadFileChange($event)"
     ></app-download-info-body>
   </div>
 
