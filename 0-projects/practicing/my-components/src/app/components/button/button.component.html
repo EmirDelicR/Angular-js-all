@@ -1,0 +1,22 @@
+<ng-container *ngIf="!downloadLink">
+  <button
+    class="btn btn-{{ btnColor || 'red' }} {{ btnClass }}"
+    type="button"
+    (click)="onButtonClick()"
+  >
+    <span> {{ text }}</span>
+  </button>
+</ng-container>
+
+<ng-container *ngIf="downloadLink">
+  <span class="btn btn-{{ btnColor || 'red' }} btn-span btn-download">
+    <fa-icon [icon]="faDownload" class="sm-hide"></fa-icon>
+    <a
+      [href]="downloadLink.file.src"
+      download="{{ downloadLink.title }}.{{ downloadLink.file.ext }}"
+    >
+      <fa-icon [icon]="faDownload" class="md-hide"></fa-icon>
+      <span class="sm-hide">{{ text }}</span>
+    </a>
+  </span>
+</ng-container>

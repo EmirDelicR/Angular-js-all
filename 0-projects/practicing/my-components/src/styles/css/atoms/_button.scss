@@ -1,0 +1,87 @@
+@import '../breakpoints';
+
+$btn-colors: (
+  red: red,
+  blue: blue,
+);
+
+@mixin reset {
+  &:hover {
+    transform: none;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+.btn {
+  color: white;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+  &.disabled,
+  &:disabled {
+    border: #c2c2c2 !important;
+    background: #c2c2c2 !important;
+
+    &:hover {
+      background: #c2c2c2;
+      transform: none;
+    }
+  }
+
+  &-pure {
+    border-radius: 0;
+    @include reset;
+  }
+
+  &-download {
+    height: 40px;
+    width: 85px;
+    border-radius: 20px;
+    font-size: 18px;
+    line-height: 1;
+
+    @include respond-to('md') {
+      width: 200px;
+      font-size: 16px;
+      font-weight: bold;
+      letter-spacing: 0.2px;
+      line-height: 18px;
+    }
+  }
+}
+
+@each $color, $value in $btn-colors {
+  .btn-#{$color} {
+    background-color: $value;
+    border-color: $value;
+
+    &:hover,
+    &:focus {
+      background-color: $value;
+      border-color: $value;
+      transform: scale(1.05);
+    }
+  }
+}
+
+@each $color, $value in $btn-colors {
+  .btn-outline-#{$color} {
+    font-weight: 600;
+
+    &:hover,
+    &:focus {
+      color: $value;
+      background: transparent;
+      transform: scale(1.05);
+    }
+  }
+}

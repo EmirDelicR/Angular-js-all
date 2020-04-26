@@ -1,0 +1,20 @@
+@import 'src/styles/css/atoms/button.scss';
+@import 'src/styles/css/display';
+@import 'src/styles/css/breakpoints';
+
+.btn-span {
+  position: relative;
+
+  a {
+    color: lightgray;
+    text-decoration: none;
+
+    @include respond-to('md') {
+      padding-left: 6px;
+    }
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+  }
+}
