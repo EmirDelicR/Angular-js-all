@@ -1,0 +1,35 @@
+$radio-btn-colors: (
+  red: 'red',
+  blue: 'blue',
+  green: 'green',
+);
+
+.radio-btn {
+  cursor: pointer;
+
+  &:after {
+    content: '';
+    height: 17px;
+    width: 17px;
+    border: 1px solid grey;
+    background-color: #fffefe;
+    border-radius: 15px;
+    top: -2px;
+    left: -1px;
+    position: relative;
+    display: inline-block;
+  }
+
+  &:checked:after {
+    border: 1px solid white;
+    background-color: red;
+  }
+
+  @each $name, $value in $radio-btn-colors {
+    &--#{$name} {
+      &:checked:after {
+        background-color: $value;
+      }
+    }
+  }
+}
