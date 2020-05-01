@@ -19,6 +19,7 @@ import { InfoTileComponent } from './components/download/download-info/download-
 import { MultiTileComponent } from './components/download/download-info/download-info-body/multi-tile/multi-tile.component';
 import { ButtonComponent } from './components/button/button.component';
 import { HeaderBoxComponent } from './components/header-box/header-box.component';
+import { RadioButtonsComponent } from './components/radio-buttons/radio-buttons.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { HeaderBoxComponent } from './components/header-box/header-box.component
     MultiTileComponent,
     ButtonComponent,
     HeaderBoxComponent,
+    RadioButtonsComponent,
   ],
   imports: [BrowserModule, FontAwesomeModule],
   providers: [],
