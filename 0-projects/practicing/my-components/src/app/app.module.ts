@@ -18,6 +18,7 @@ import { TruncateOverflowDirective } from './directives/truncate-overflow.direct
 import { InfoTileComponent } from './components/download/download-info/download-info-body/info-tile/info-tile.component';
 import { MultiTileComponent } from './components/download/download-info/download-info-body/multi-tile/multi-tile.component';
 import { ButtonComponent } from './components/button/button.component';
+import { HeaderBoxComponent } from './components/header-box/header-box.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { ButtonComponent } from './components/button/button.component';
     InfoTileComponent,
     MultiTileComponent,
     ButtonComponent,
+    HeaderBoxComponent,
   ],
   imports: [BrowserModule, FontAwesomeModule],
   providers: [],
