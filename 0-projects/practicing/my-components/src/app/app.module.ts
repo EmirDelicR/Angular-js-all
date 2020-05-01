@@ -20,6 +20,7 @@ import { MultiTileComponent } from './components/download/download-info/download
 import { ButtonComponent } from './components/button/button.component';
 import { HeaderBoxComponent } from './components/header-box/header-box.component';
 import { RadioButtonsComponent } from './components/radio-buttons/radio-buttons.component';
+import { CheckboxesComponent } from './components/checkboxes/checkboxes.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { RadioButtonsComponent } from './components/radio-buttons/radio-buttons.
     ButtonComponent,
     HeaderBoxComponent,
     RadioButtonsComponent,
+    CheckboxesComponent,
   ],
   imports: [BrowserModule, FontAwesomeModule],
   providers: [],
