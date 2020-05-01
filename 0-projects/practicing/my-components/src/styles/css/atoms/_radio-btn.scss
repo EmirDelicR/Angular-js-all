@@ -1,7 +1,7 @@
 $radio-btn-colors: (
-  red: 'red',
-  blue: 'blue',
-  green: 'green',
+  'circle-red': red,
+  'circle-blue': blue,
+  'circle-green': green,
 );
 
 .radio-btn {
@@ -25,8 +25,8 @@ $radio-btn-colors: (
     background-color: red;
   }
 
-  @each $name, $value in $radio-btn-colors {
-    &--#{$name} {
+  @each $key, $value in $radio-btn-colors {
+    &--#{$key} {
       &:checked:after {
         background-color: $value;
       }
