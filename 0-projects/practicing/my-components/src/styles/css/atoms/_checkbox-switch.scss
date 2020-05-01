@@ -5,6 +5,28 @@
   cursor: pointer;
   margin: 10px 0;
 
+  @mixin pseudo-content {
+    content: '';
+    position: absolute;
+    top: calc(50% - 4px);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    transition: 0.5s;
+  }
+
+  @mixin pseudo-content-btn {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 27px;
+    height: 40px;
+    background-color: #015a69;
+    box-shadow: inset -5px -5px 15px rgba(0, 0, 0, 0.3);
+    filter: blur(2px);
+  }
+
   &__input {
     opacity: 0;
 
@@ -40,29 +62,17 @@
     box-shadow: 0 0 0 4px #101010;
 
     &:before {
-      content: '';
-      position: absolute;
-      top: calc(50% - 4px);
+      @include pseudo-content;
       left: -30px;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
       background: #f00;
-      transition: 0.5s;
       box-shadow: 0 0 5px #f00, 0 0 10px #f00, 0 0 20px #f00, 0 0 40px #f00,
         0 0 80px #f00;
     }
 
     &:after {
-      content: '';
-      position: absolute;
-      top: calc(50% - 4px);
+      @include pseudo-content;
       right: -30px;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
       background: #101010;
-      transition: 0.5s;
       box-shadow: none;
     }
   }
@@ -79,31 +89,15 @@
     box-shadow: inset 0 -20px 15px #292929, inset 0 20px 15px #292929;
 
     &:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 27px;
-      height: 40px;
-      background-color: #015a69;
+      @include pseudo-content-btn;
       border-top-left-radius: 40px;
       border-bottom-left-radius: 40px;
-      box-shadow: inset -5px -5px 15px rgba(0, 0, 0, 0.3);
-      filter: blur(2px);
     }
 
     &:after {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 27px;
-      height: 40px;
-      background-color: #015a69;
+      @include pseudo-content-btn;
       border-top-right-radius: 40px;
       border-bottom-right-radius: 40px;
-      box-shadow: inset -5px -5px 15px rgba(0, 0, 0, 0.3);
-      filter: blur(2px);
     }
   }
 }

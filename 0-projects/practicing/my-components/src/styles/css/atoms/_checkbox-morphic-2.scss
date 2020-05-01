@@ -1,0 +1,37 @@
+.checkbox-morphic-2 {
+  position: relative;
+
+  &__check {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+
+    &:checked {
+      + .checkbox-morphic-2__icon-wrap {
+        box-shadow: inset -2px -2px 5px rgba(255, 255, 255, 1),
+          inset 3px 3px 5px rgba(0, 0, 0, 0.1);
+
+        .checkbox-morphic-2__icon {
+          transform: scale(0.9);
+        }
+      }
+    }
+  }
+
+  &__icon-wrap {
+    width: 60px;
+    height: 60px;
+    background: #ebf5fc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: -2px -2px 5px rgba(255, 255, 255, 1),
+      3px 3px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+
+  &__icon {
+    color: #6a9bd8;
+    font-size: 30px;
+  }
+}

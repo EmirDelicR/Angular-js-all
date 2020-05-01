@@ -1,5 +1,7 @@
 @import 'src/styles/css/atoms/checkbox-morphic';
+@import 'src/styles/css/atoms/checkbox-morphic-2';
 @import 'src/styles/css/atoms/checkbox-switch';
+@import 'src/styles/css/atoms/checkbox-switch-2';
 
 .checkbox-bts {
   display: flex;
@@ -18,9 +20,15 @@
     width: 200px;
   }
 
+  &--morph-2 {
+    background-color: #ebf5fc;
+    height: 70px;
+    width: 200px;
+  }
+
   &--switch {
     background-color: #191919;
     height: 70px;
-    width: 200px;
+    width: 250px;
   }
 }
