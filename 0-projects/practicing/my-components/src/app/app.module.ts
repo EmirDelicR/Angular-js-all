@@ -23,6 +23,7 @@ import { RadioButtonsComponent } from './components/radio-buttons/radio-buttons.
 import { CheckboxesComponent } from './components/checkboxes/checkboxes.component';
 import { RatingComponent } from './components/rating/rating.component';
 import { CheckListComponent } from './components/check-list/check-list.component';
+import { ButtonsComponent } from './components/buttons/buttons.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { CheckListComponent } from './components/check-list/check-list.component
     CheckboxesComponent,
     RatingComponent,
     CheckListComponent,
+    ButtonsComponent,
   ],
   imports: [BrowserModule, FontAwesomeModule],
   providers: [],
