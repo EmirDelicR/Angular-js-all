@@ -23,11 +23,12 @@
     .btn-isometric__icon {
       transition: 0.5s;
       color: #fff;
-      @for $var from 1 to 6 {
+      background-color: #55acee;
+      opacity: 0.4;
+      @for $var from 2 to 6 {
         &:nth-child(#{$var}) {
-          background-color: #55acee;
           opacity: #{$var * 0.2};
-          transform: translate(#{$var * 10px}, -#{$var * 10px});
+          transform: translate(#{$var * 5px}, -#{$var * 5px});
         }
       }
     }

@@ -1,0 +1,81 @@
+.loader-2 {
+  display: flex;
+  align-items: flex-end;
+  transform: translateY(-35px);
+
+  &__element {
+    width: 20px;
+    height: 20px;
+    background: #111;
+    margin: 0 10px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    animation: animate-bars 2s linear infinite;
+
+    @for $var from 1 to 9 {
+      &:nth-child(#{$var}) {
+        height: calc(20px * #{$var});
+        animation-delay: calc(0.25s * #{$var});
+        .loader-2__letter {
+          animation-delay: calc(0.25s * #{$var});
+        }
+      }
+    }
+  }
+
+  &__letter {
+    display: block;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    transform: translateY(60px);
+    animation: animate-letter 2s linear infinite;
+  }
+
+  @keyframes animate-bars {
+    0% {
+      background: #fff;
+      filter: blur(2px);
+      box-shadow: 0 0 10px #00b3ff, 0 0 20px #00b3ff, 0 0 40px #00b3ff,
+        0 0 80px #00b3ff, 0 0 120px #00b3ff, 0 0 200px #00b3ff,
+        0 0 300px #00b3ff, 0 0 400px #00b3ff;
+    }
+    25%,
+    75% {
+      background: #111;
+      filter: blur(0px);
+      box-shadow: none;
+    }
+    100% {
+      background: #fff;
+      filter: blur(2px);
+      box-shadow: 0 0 10px #00b3ff, 0 0 20px #00b3ff, 0 0 40px #00b3ff,
+        0 0 80px #00b3ff, 0 0 120px #00b3ff, 0 0 200px #00b3ff,
+        0 0 300px #00b3ff, 0 0 400px #00b3ff;
+    }
+  }
+
+  @keyframes animate-letter {
+    0% {
+      color: #fff;
+      filter: blur(2px);
+      text-shadow: 0 0 10px #00b3ff, 0 0 20px #00b3ff, 0 0 40px #00b3ff,
+        0 0 80px #00b3ff, 0 0 120px #00b3ff, 0 0 200px #00b3ff,
+        0 0 300px #00b3ff, 0 0 400px #00b3ff;
+    }
+    25%,
+    75% {
+      color: #111;
+      filter: blur(0px);
+      text-shadow: none;
+    }
+    100% {
+      color: #fff;
+      filter: blur(2px);
+      text-shadow: 0 0 10px #00b3ff, 0 0 20px #00b3ff, 0 0 40px #00b3ff,
+        0 0 80px #00b3ff, 0 0 120px #00b3ff, 0 0 200px #00b3ff,
+        0 0 300px #00b3ff, 0 0 400px #00b3ff;
+    }
+  }
+}

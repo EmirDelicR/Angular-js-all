@@ -1,0 +1,11 @@
+@import 'src/styles/css/atoms/loader';
+@import 'src/styles/css/atoms/loader-2';
+
+.loaders {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 250px;
+  background: #000;
+  padding: 20px;
+}
