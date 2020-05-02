@@ -25,6 +25,7 @@ import { RatingComponent } from './components/rating/rating.component';
 import { CheckListComponent } from './components/check-list/check-list.component';
 import { ButtonsComponent } from './components/buttons/buttons.component';
 import { LoadersComponent } from './components/loaders/loaders.component';
+import { InputsComponent } from './components/inputs/inputs.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { LoadersComponent } from './components/loaders/loaders.component';
     CheckListComponent,
     ButtonsComponent,
     LoadersComponent,
+    InputsComponent,
   ],
   imports: [BrowserModule, FontAwesomeModule],
   providers: [],

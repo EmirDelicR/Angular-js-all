@@ -1,0 +1,55 @@
+.input {
+  position: relative;
+  width: 40%;
+  height: 40px;
+  color: #45f3ff;
+  font-size: 18px;
+
+  &__field {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    box-shadow: none;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0 10px;
+    z-index: 1;
+    color: #000;
+
+    &:focus,
+    &:valid {
+      + .input__text {
+        top: -35px;
+        left: -10px;
+      }
+
+      ~ .input__line {
+        height: 100%;
+      }
+    }
+  }
+
+  &__text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    line-height: 40px;
+    padding: 0 10px;
+    display: block;
+    transition: 0.5s;
+    pointer-events: none;
+  }
+
+  &__line {
+    position: absolute;
+    bottom: 0;
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: #45f3ff;
+    transition: 0.5s;
+    pointer-events: none;
+    border-radius: 2px;
+  }
+}

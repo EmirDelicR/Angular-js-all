@@ -1,0 +1,10 @@
+@import 'src/styles/css/atoms/input';
+@import 'src/styles/css/atoms/input-2';
+
+.inputs {
+  display: flex;
+  height: 100px;
+  justify-content: space-between;
+  align-items: center;
+  background: #000;
+}
