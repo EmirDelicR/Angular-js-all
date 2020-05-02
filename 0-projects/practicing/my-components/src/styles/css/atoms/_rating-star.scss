@@ -1,0 +1,40 @@
+.rating {
+  @mixin active {
+    color: #1f9cff;
+    transition: 0.5s;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  }
+
+  &__input {
+    display: none;
+
+    &:checked {
+      ~ .rating__label .rating__icon {
+        @include active;
+      }
+    }
+  }
+
+  &__label {
+    display: block;
+    cursor: pointer;
+    width: 50px;
+
+    &:hover {
+      ~ .rating__label .rating__icon {
+        @include active;
+      }
+    }
+  }
+
+  &__icon {
+    position: relative;
+    display: block;
+    font-size: 40px;
+    color: #101010;
+
+    &:hover {
+      @include active;
+    }
+  }
+}

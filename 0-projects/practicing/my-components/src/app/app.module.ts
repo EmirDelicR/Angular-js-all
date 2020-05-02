@@ -21,6 +21,7 @@ import { ButtonComponent } from './components/button/button.component';
 import { HeaderBoxComponent } from './components/header-box/header-box.component';
 import { RadioButtonsComponent } from './components/radio-buttons/radio-buttons.component';
 import { CheckboxesComponent } from './components/checkboxes/checkboxes.component';
+import { RatingComponent } from './components/rating/rating.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { CheckboxesComponent } from './components/checkboxes/checkboxes.componen
     HeaderBoxComponent,
     RadioButtonsComponent,
     CheckboxesComponent,
+    RatingComponent,
   ],
   imports: [BrowserModule, FontAwesomeModule],
   providers: [],

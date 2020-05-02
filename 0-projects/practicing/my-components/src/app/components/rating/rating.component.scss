@@ -1,0 +1,11 @@
+@import 'src/styles/css/atoms/rating-star';
+
+.rating-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  width: 360px;
+  border: 1px solid lightblue;
+  transform: rotateY(180deg);
+}
