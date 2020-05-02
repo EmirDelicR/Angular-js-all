@@ -1,0 +1,8 @@
+@import 'src/styles/css/atoms/check-list';
+@import 'src/styles/css/atoms/check-list-2';
+.check-list {
+  display: flex;
+  background-color: #001925;
+  align-items: center;
+  justify-content: space-around;
+}

@@ -1,0 +1,76 @@
+.list-2 {
+  color: white;
+  background: #042b3e;
+  padding: 0px 40px 40px 40px;
+  width: 35%;
+
+  &__header {
+    font-size: 30px;
+    border-bottom: 4px solid #fff;
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__element {
+    margin: 40px 0;
+    cursor: pointer;
+    font-size: 24px;
+    position: relative;
+  }
+
+  &__input {
+    appearance: none;
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    z-index: 10;
+    outline: none;
+    cursor: pointer;
+
+    &:checked {
+      ~ .list-2__text {
+        color: #154e6b;
+        &:after {
+          display: block;
+          background-color: yellow;
+          animation: slide 1.5s forwards;
+        }
+      }
+    }
+  }
+
+  &__box {
+    position: absolute;
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    border: 2px solid #fff;
+  }
+
+  &__text {
+    position: relative;
+    left: 40px;
+    transition: 0.5s;
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: 4px;
+      right: 0;
+      width: 22px;
+      height: 22px;
+      display: none;
+      border-radius: 5px;
+    }
+  }
+
+  @keyframes slide {
+    100% {
+      right: calc(100% + 14px);
+    }
+  }
+}
