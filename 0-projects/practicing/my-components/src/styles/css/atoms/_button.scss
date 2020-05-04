@@ -1,8 +1,8 @@
 @import '../breakpoints';
 
 $btn-colors: (
-  red: red,
-  blue: blue,
+  '-red': red,
+  '-blue': blue,
 );
 
 @mixin reset {
@@ -59,8 +59,8 @@ $btn-colors: (
   }
 }
 
-@each $color, $value in $btn-colors {
-  .btn-#{$color} {
+@each $col, $value in $btn-colors {
+  .btn-#{$col} {
     background-color: $value;
     border-color: $value;
 
@@ -73,8 +73,8 @@ $btn-colors: (
   }
 }
 
-@each $color, $value in $btn-colors {
-  .btn-outline-#{$color} {
+@each $col, $value in $btn-colors {
+  .btn-outline-#{$col} {
     font-weight: 600;
 
     &:hover,

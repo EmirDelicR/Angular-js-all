@@ -1,6 +1,6 @@
 <ng-container *ngIf="!downloadLink">
   <button
-    class="btn btn-{{ btnColor || 'red' }} {{ btnClass }}"
+    class="btn btn{{ btnColor || '-red' }} {{ btnClass }}"
     type="button"
     (click)="onButtonClick()"
   >
@@ -9,7 +9,7 @@
 </ng-container>
 
 <ng-container *ngIf="downloadLink">
-  <span class="btn btn-{{ btnColor || 'red' }} btn-span btn-download">
+  <span class="btn btn{{ btnColor || '-red' }} btn-span btn-download">
     <fa-icon [icon]="faDownload" class="sm-hide"></fa-icon>
     <a
       [href]="downloadLink.file.src"

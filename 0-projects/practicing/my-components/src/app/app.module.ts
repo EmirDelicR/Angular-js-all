@@ -26,6 +26,9 @@ import { CheckListComponent } from './components/check-list/check-list.component
 import { ButtonsComponent } from './components/buttons/buttons.component';
 import { LoadersComponent } from './components/loaders/loaders.component';
 import { InputsComponent } from './components/inputs/inputs.component';
+import { NavWithDropdownComponent } from './components/nav-with-dropdown/nav-with-dropdown.component';
+import { PandaLoginComponent } from './components/panda-login/panda-login.component';
+import { InPageSliderComponent } from './components/in-page-slider/in-page-slider.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +56,9 @@ import { InputsComponent } from './components/inputs/inputs.component';
     ButtonsComponent,
     LoadersComponent,
     InputsComponent,
+    NavWithDropdownComponent,
+    PandaLoginComponent,
+    InPageSliderComponent,
   ],
   imports: [BrowserModule, FontAwesomeModule],
   providers: [],

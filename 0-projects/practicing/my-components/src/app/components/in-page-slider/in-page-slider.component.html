@@ -1,0 +1,14 @@
+<div style="position: relative; height: 50vh; width: 100%; overflow: hidden;">
+  <div class="in-page-slider open">
+    <span (click)="toggleClass()" class="in-page-slider__toggle"></span>
+    <div class="in-page-slider__wrapper">
+      <div class="in-page-slider__header">
+        <h4 class="in-page-slider__title">Login</h4>
+        <span class="in-page-slider__close">X</span>
+      </div>
+      <div class="in-page-slider__content">
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </div>
+</div>
