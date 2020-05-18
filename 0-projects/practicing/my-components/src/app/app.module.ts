@@ -29,6 +29,10 @@ import { InputsComponent } from './components/inputs/inputs.component';
 import { NavWithDropdownComponent } from './components/nav-with-dropdown/nav-with-dropdown.component';
 import { PandaLoginComponent } from './components/panda-login/panda-login.component';
 import { InPageSliderComponent } from './components/in-page-slider/in-page-slider.component';
+import { MetaNavComponent } from './components/nav-with-dropdown/meta-nav/meta-nav.component';
+import { PageNavComponent } from './components/nav-with-dropdown/page-nav/page-nav.component';
+import { MainNavComponent } from './components/nav-with-dropdown/main-nav/main-nav.component';
+import { SearchComponent } from './components/nav-with-dropdown/search/search.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +63,10 @@ import { InPageSliderComponent } from './components/in-page-slider/in-page-slide
     NavWithDropdownComponent,
     PandaLoginComponent,
     InPageSliderComponent,
+    MetaNavComponent,
+    PageNavComponent,
+    MainNavComponent,
+    SearchComponent,
   ],
   imports: [BrowserModule, FontAwesomeModule],
   providers: [],

@@ -1,0 +1,37 @@
+<div class="main-navigation">
+  <div class="main-navigation__logo">LOGO</div>
+
+  <div class="main-navigation__wrapper has-flyout" (mouseenter)="enter($event)">
+    <a href="" class="main-navigation__element">
+      <span class="main-navigation__icon">T</span>
+      <span class="main-navigation__text">Some Text</span>
+    </a>
+    <div class="main-navigation__mega-drop-down flyout closed">
+      Some data 1
+      <button class="close-flyout-btn" (click)="resetFlyOuts($event)">
+        Close
+      </button>
+    </div>
+  </div>
+
+  <div class="main-navigation__wrapper" (mouseenter)="enter($event)">
+    <a href="" class="main-navigation__element">
+      <span class="main-navigation__icon">Z</span>
+      <span class="main-navigation__text">Some Text 1</span>
+    </a>
+  </div>
+
+  <div class="main-navigation__wrapper has-flyout" (mouseenter)="enter($event)">
+    <a href="" class="main-navigation__element">
+      <span class="main-navigation__icon">W</span>
+      <span class="main-navigation__text">Some Text 2</span>
+    </a>
+
+    <div class="main-navigation__mega-drop-down flyout closed">
+      Some data 3
+      <button class="close-flyout-btn" (click)="resetFlyOuts($event)">
+        Close
+      </button>
+    </div>
+  </div>
+</div>

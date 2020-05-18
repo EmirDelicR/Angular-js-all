@@ -1,0 +1,39 @@
+.nav-with-dropdown {
+  height: 400px;
+
+  .nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid rgb(0, 247, 255);
+    height: 40px;
+
+    &__element {
+      border: 1px solid grey;
+      padding: 10px;
+      margin-right: 10px;
+
+      &:hover {
+        color: red;
+      }
+    }
+  }
+
+  .nav-dropdown {
+    height: 10px;
+    border: 1px solid black;
+
+    &__content {
+      display: none;
+    }
+  }
+
+  .fly-out {
+    height: 10px;
+  }
+
+  .open {
+    transition: 0.5s;
+    height: 300px;
+  }
+}
