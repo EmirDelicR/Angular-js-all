@@ -1,0 +1,16 @@
+<div
+  class="element"
+  [ngClass]="{ 'has-flyout': data.hasFly }"
+  (mouseenter)="enter($event)"
+>
+  <a href="" class="element__link">
+    <span class="element__icon">{{ data.icon }}</span>
+    <span class="element__text">{{ data.text }}</span>
+  </a>
+  <div *ngIf="data.hasFly" class="element__mega-drop-down flyout closed">
+    {{ data.flyData }}
+    <button class="close-flyout-btn" (click)="resetFlyOuts($event)">
+      Close
+    </button>
+  </div>
+</div>

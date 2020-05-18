@@ -1,0 +1,44 @@
+.main-navigation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  border-bottom: 1px solid rgb(0, 174, 255);
+  font-size: 14px;
+  transition: transform 0.3s linear;
+  width: 100vw;
+  position: relative;
+  background: white;
+
+  &__logo {
+    opacity: 0;
+    position: absolute;
+    left: 134px;
+    font-size: 16px;
+
+    &--show {
+      opacity: 1;
+      transition: opacity 1s ease-in;
+    }
+  }
+
+  &--sticky {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+  }
+
+  &--top {
+    top: 66px;
+    transition: top 0.3s linear;
+  }
+
+  &--animate {
+    transform: translateY(-100px);
+  }
+
+  &--hidden {
+    display: none;
+  }
+}
