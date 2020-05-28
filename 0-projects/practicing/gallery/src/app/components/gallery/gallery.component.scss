@@ -1,0 +1,36 @@
+.gallery {
+  min-height: 88.8vh;
+  min-width: 96vw;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 20px;
+
+  &__item-wrap {
+    flex: 1 30%;
+  }
+
+  &__swiper {
+    display: flex;
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+  &__close {
+    position: absolute;
+    color: red;
+    border-radius: 50%;
+    background: none;
+    outline: none;
+    font-size: 24px;
+    top: 40px;
+    right: 40px;
+  }
+}

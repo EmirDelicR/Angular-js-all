@@ -1,0 +1,7 @@
+<div class="gallery-item" (click)="openSlider()">
+  <img class="gallery-item__image" [src]="item.img" [alt]="item.title" />
+  <div class="gallery-item__overlay">
+    <h3 class="gallery-item__title">{{ item.title }}</h3>
+    <span class="gallery-item__date">{{ item.date }}</span>
+  </div>
+</div>

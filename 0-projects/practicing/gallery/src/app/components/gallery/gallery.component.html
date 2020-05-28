@@ -1,0 +1,12 @@
+<div class="gallery">
+  <app-item
+    class="gallery__item-wrap"
+    *ngFor="let data of imageCollection"
+    [item]="data"
+  ></app-item>
+</div>
+
+<div class="gallery__swiper" *ngIf="isSliderOpen">
+  <button class="gallery__close" (click)="closeSlider()">X</button>
+  <app-slider [data]="sliderData"></app-slider>
+</div>

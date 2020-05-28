@@ -1,0 +1,9 @@
+<div class="swiper-container">
+  <div class="swiper-wrapper">
+    <div
+      class="swiper-slide"
+      *ngFor="let item of data"
+      [ngStyle]="{ 'background-image': 'url(' + item + ')' }"
+    ></div>
+  </div>
+</div>
